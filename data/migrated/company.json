@@ -1,0 +1,16 @@
+{
+  "name": "Assay Biotechnology",
+  "description": "Assay Biotechnology成立于2009年，是一家新兴的专业技术服务公司。公司专注于水中微生物检测技术及方法的研发、引进和推广。",
+  "established": "2009",
+  "services": [
+    "水中微生物检测技术研发",
+    "检测设备销售与服务",
+    "技术培训与咨询",
+    "质量控制解决方案"
+  ],
+  "contact": {
+    "address": "上海市",
+    "phone": "021-XXXXXXXX",
+    "email": "info@assaybio.cn"
+  }
+}

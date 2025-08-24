@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<title>上海安净生物技术有限公司  -Assay Biotechnology</title>
+<meta content="Assay Biotechnology" id="Keywords" name="Keywords"/>
+<meta content="Assay Biotechnology" id="Description" name="Description"/>
+<link href="images/Kd_Common.css" rel="stylesheet" type="text/css"/>
+<link href="images/Kd_Default.css" rel="stylesheet" type="text/css"/>
+<script src="js/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script src="js/common.js" type="text/javascript"></script>
+<script src="js/jquery.SuperSlide.2.1.js" type="text/javascript"></script>
+</head>
+<body>
+<div class="header">
+<div class="wrap">
+<div class="copyright">
+<a href="http://beian.miit.gov.cn" target="_blank">沪ICP备19033946号-1</a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31011202012026" target="_blank"><img alt="" src="Upload/editor/image/20200103/20200103084118_7482.png" style="vertical-align:middle;margin-left:10px;"/>沪公网安备 31011202012026号</a> <a href="/Upload/editor/image/20230221/20230221155844_1967.jpg" target="_blank"><span style="color:#FFFFFF;">营业执照</span></a><br/>
+</div>
+<div class="banner">
+<div class="bannerBg"></div>
+<div class="bd">
+<ul>
+<li><a href="Info.aspx?id=00010001"><img alt="" height="599" src="Upload/201406/20140626033311433.jpg" width="1002"/></a></li>
+<li><a href="Info.aspx?id=00010002"><img alt="" height="599" src="Upload/201406/20140626033323042.jpg" width="1002"/></a></li>
+<li><a href="Info.aspx?id=00010003"><img alt="" height="599" src="Upload/201406/20140626033331464.jpg" width="1002"/></a></li>
+</ul>
+</div>
+<div class="hd">
+<ul></ul></div>
+</div>
+<div class="nav">
+<ul class="clearfix">
+<li><a class="" href="info.aspx?id=00010001">About Us<em>　　　　关于我们</em></a></li>
+<li><a class="" href="info.aspx?id=00050001">Literature<em>　　文献资料</em></a></li>
+<li><a class="" href="info.aspx?id=00020001">Market Trend<em>　　　　市场动向</em></a></li>
+<li><a class="" href="info.aspx?id=00070001">Product<em>　　　　产品</em></a></li>
+<li><a class="curent" href="default.aspx">Home<em>　　首页</em></a></li>
+</ul>
+</div>
+</div>
+</div>
+<script>	
+$(".iNav li").eq(1).addClass("iNav_2")
+	$(".iNav li").eq(3).addClass("iNav_4")
+	$(".iNav li a").each(function(i){
+		if($(this).attr("class")=="current"){
+			var parClass = $(".iNav li").eq(i).attr("class");
+			if(parClass=="iNav_2"||parClass=="iNav_4"){
+				$('.iNavBg').addClass("on");
+			}
+			$(".iNav li").eq(i).addClass("on")
+		}
+	})
+	$(".iNav li").hover(function(){
+		$(this).addClass("on");
+		if($(this).attr("class")=="iNav_2 on"||$(this).attr("class")=="iNav_4 on"){
+			$('.iNavBg').addClass("on")
+		}
+	},function(){
+		$(this).removeClass("on");
+		if($(this).attr("class")=="iNav_2"||$(this).attr("class")=="iNav_4"){
+			$('.iNavBg').removeClass("on")
+		}
+	})
+
+
+
+</script>
+<script type="text/javascript">
+   jQuery(".banner").slide({titCell:".hd ul",mainCell:".bd ul",autoPage:true,effect:"fold",autoPlay:true,interTime:5000,delayTime:2000});
+</script>
+</body>
+<!--[if lt IE 7]><script src="js/iepng.js"></script><![endif]-->
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<title></title>
+<meta content="" name="keywords"/>
+<meta content="" name="description"/>
+<link href="images/Kd_Common.css" rel="stylesheet" type="text/css"/>
+<link href="images/Kd_Inside.css" rel="stylesheet" type="text/css"/>
+<script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
+<script src="js/jquery.scrbar.js" type="text/javascript"></script>
+<script src="js/common.js" type="text/javascript"></script>
+<script src="js/jquery.SuperSlide.2.1.js" type="text/javascript"></script>
+</head>
+<body>
+<div class="header">
+<div class="wrap">
+<div class="copyright">
+<a href="http://beian.miit.gov.cn" target="_blank">沪ICP备19033946号-1</a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31011202012026" target="_blank"><img alt="" src="Upload/editor/image/20200103/20200103084118_7482.png" style="vertical-align:middle;margin-left:10px;"/>沪公网安备 31011202012026号</a> <a href="Upload/editor/image/20230221/20230221155844_1967.jpg" target="_blank"><span style="color:#FFFFFF;">营业执照</span></a><br/>
+</div>
+<div class="iNav">
+<ul class="clearfix">
+<li><a class="" href="info.aspx?id=00010001">About Us<em>　　　　关于我们</em></a></li>
+<li><a class="" href="info.aspx_id_00050001.html">Literature<em>　　文献资料</em></a></li>
+<li><a class="" href="info.aspx?id=00020001">Market Trend<em>　　　　市场动向</em></a></li>
+<li><a class="" href="info.aspx_id_00070001.html">Product<em>　　　　产品</em></a></li>
+<li><a class="" href="default.html">Home<em>　　首页</em></a></li>
+<div class="iNavBg"></div>
+</ul>
+</div>
+<script>	
+
+$(".iNav li").eq(1).addClass("iNav_2")
+	$(".iNav li").eq(3).addClass("iNav_4")
+	$(".iNav li a").each(function(i){
+		if($(this).attr("class")=="current"){
+			var parClass = $(".iNav li").eq(i).attr("class");
+			if(parClass=="iNav_2"||parClass=="iNav_4"){
+				$('.iNavBg').addClass("on");
+			}
+			$(".iNav li").eq(i).addClass("on")
+		}
+	})
+	$(".iNav li").hover(function(){
+		$(this).addClass("on");
+		if($(this).attr("class")=="iNav_2 on"||$(this).attr("class")=="iNav_4 on"){
+			$('.iNavBg').addClass("on")
+		}
+	},function(){
+		$(this).removeClass("on");
+		if($(this).attr("class")=="iNav_2"||$(this).attr("class")=="iNav_4"){
+			$('.iNavBg').removeClass("on")
+		}
+	})
+</script>
+</div>
+</div>
+<div class="container">
+<div class="wrap clearfix">
+<script type="text/javascript">
+    $(document).ready(function () {
+        var url = location.href;
+        var vlurl = getUrlParam("id");
+        var showid;
+
+        showid = vlurl.substring(0, 8);
+        var _this = $("#" + showid);
+        if (vlurl.length > 8) {
+            $("." + vlurl).addClass("current");
+
+        }
+        else {
+            _this.find("li a:first").addClass("current");
+        }
+        $("#" + showid).show();
+
+
+    });
+</script>
+<script>
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+</script>
+<div class="sidebar">
+<h2 class="colPicTitle">About Us<em>关于我们</em></h2>
+<div class="menu">
+<div class="scroll2">
+<div class="scrCont">
+<dl>
+<dt><a class="" href="Info.aspx_id_00010001.html">&lt; 关于我们</a>
+<dd>
+<ul class="third" id="00010001" style="display:none">
+</ul>
+</dd>
+</dt>
+<dt><a class="" href="Info.aspx?id=00010002">&lt; 联系我们</a>
+<dd>
+<ul class="third" id="00010002" style="display:none">
+</ul>
+</dd>
+</dt>
+<dt><a class="current" href="Info.aspx_id_00010003.html">&lt; 新闻动态</a>
+<dd>
+<ul class="third" id="00010003" style="display:none">
+</ul>
+</dd>
+</dt>
+</dl>
+</div>
+<div class="scrPanel">
+<div class="btnBack"></div>
+<div class="scrZone">
+<div class="scrHand"></div>
+</div>
+<div class="btnFord"></div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+                $(function() {$('.scroll2').scrbarOn();});
+            </script>
+</div>
+<div class="main">
+<div class="location"><a href="default.html" title="首页">首页</a> &gt; <a class="daohang" href="info.aspx?id=00010001" title="关于我们">关于我们</a> &gt; <a class="daohang" href="info.aspx_id_00010003_1.html" title="新闻动态">新闻动态</a> &gt; <a class="daohang" href="display.aspx?id=1735" title="微信平台上线">微信平台上线</a></div>
+<div class="scroll">
+<div class="scrCont">
+<div class="article clearfix">
+<p align="center" style="text-indent:2em;">
+<strong><span style="font-size:14px;">微信平台上线</span></strong>
+</p>
+<p style="text-indent:2em;">
+<br>
+</br></p>
+<p style="text-indent:2em;">
+<span style="font-size:14px;">今天，2月12日，是个大日子。因为我们的水中微生物技术交流微信平台正式上线了！</span>
+</p>
+<p style="text-indent:2em;">
+<span style="font-size:14px;">“水中的放大镜”是这个微信平台的名字，你喜欢吗？这可是费了好多脑细胞才最后定下来的。一来，这个名字清晰地表现了这个平台的定位；再者，相信每个人的童年，放大镜都曾带给我们探索微观世界的无限乐趣。</span>
+</p>
+<p style="text-indent:2em;">
+<span style="font-size:14px;">从今天起，这个微信号将成为我们工作的平台和小助手，交流最新的技术，发布最新的活动，分享成长的点滴……</span>
+</p>
+<p style="text-indent:2em;">
+<span style="font-size:14px;">让我们一起快乐地拿起“水中的放大镜”吧。</span>
+</p>
+<p style="text-indent:2em;">
+<br/>
+</p>
+<p style="text-indent:2em;">
+<img align="" alt="" height="150" src="Upload/editor/image/20140626/20140626141120_5271.jpg" title="" width="150"> <span style="font-size:14px;">（扫一扫这个二维码，或输入“水中的放大镜”即可关注我们）</span>
+</img></p>
+</div>
+</div>
+<div class="scrPanel">
+<div class="btnBack"></div>
+<div class="scrZone">
+<div class="scrHand"></div>
+</div>
+<div class="btnFord"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+    $(function () { $('.scroll').scrbarOn(); });
+</script>
+</body>
+<!--[if lt IE 7]><script src="js/iepng.js"></script><![endif]-->
+</html>

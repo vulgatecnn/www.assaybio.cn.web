@@ -1,0 +1,574 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<meta content="" name="keywords">
+<meta content="" name="description">
+<link rel="stylesheet" type="text/css" href="images/Kd_Common.css">
+<link rel="stylesheet" type="text/css" href="images/Kd_Inside.css">
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.scrbar.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/jquery.SuperSlide.2.1.js"></script>
+</head>
+<body>
+<div class="header">
+	<div class="wrap">
+<div class="copyright">
+			<a href="http://beian.miit.gov.cn" target="_blank">沪ICP备19033946号-1</a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31011202012026" target="_blank"><img style="vertical-align:middle;margin-left:10px;" src="/Upload/editor/image/20200103/20200103084118_7482.png" alt="">沪公网安备 31011202012026号</a> <a href="/Upload/editor/image/20230221/20230221155844_1967.jpg" target="_blank"><span style="color:#FFFFFF;">营业执照</span></a><br>
+		</div>
+<div class="iNav">
+			<ul class="clearfix">
+                
+				<li><a href="info.aspx?id=00010001" class="">About Us<em>　　　　关于我们</em></a></li>
+                
+				<li><a href="info.aspx?id=00050001" class="">Literature<em>　　文献资料</em></a></li>
+                
+				<li><a href="info.aspx?id=00020001" class="">Market Trend<em>　　　　市场动向</em></a></li>
+                
+				<li><a href="info.aspx?id=00070001" class="current">Product<em>　　　　产品</em></a></li>
+                
+				<li><a href="default.aspx" class="">Home<em>　　首页</em></a></li>
+                
+				
+				<div class="iNavBg"></div>
+			</ul>
+	</div>
+<script>	
+
+$(".iNav li").eq(1).addClass("iNav_2")
+	$(".iNav li").eq(3).addClass("iNav_4")
+	$(".iNav li a").each(function(i){
+		if($(this).attr("class")=="current"){
+			var parClass = $(".iNav li").eq(i).attr("class");
+			if(parClass=="iNav_2"||parClass=="iNav_4"){
+				$('.iNavBg').addClass("on");
+			}
+			$(".iNav li").eq(i).addClass("on")
+		}
+	})
+	$(".iNav li").hover(function(){
+		$(this).addClass("on");
+		if($(this).attr("class")=="iNav_2 on"||$(this).attr("class")=="iNav_4 on"){
+			$('.iNavBg').addClass("on")
+		}
+	},function(){
+		$(this).removeClass("on");
+		if($(this).attr("class")=="iNav_2"||$(this).attr("class")=="iNav_4"){
+			$('.iNavBg').removeClass("on")
+		}
+	})
+</script>
+	</div>
+</div>
+<div class="container">
+	<div class="wrap clearfix">
+		
+<script type="text/javascript">
+    $(document).ready(function () {
+        var url = location.href;
+        var vlurl = getUrlParam("id");
+        var showid;
+
+        showid = vlurl.substring(0, 8);
+        var _this = $("#" + showid);
+        if (vlurl.length > 8) {
+            $("." + vlurl).addClass("current");
+
+        }
+        else {
+            _this.find("li a:first").addClass("current");
+        }
+        $("#" + showid).show();
+
+
+    });
+</script>
+<script>
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+</script>
+
+<div class="sidebar">
+			<h2 class="colPicTitle">Product<em>产品</em></h2>
+			<div class="menu">
+                <div class="scroll2">
+                    <div class="scrCont">
+        				<dl>
+                            
+        					<dt><a class="current" href="Info.aspx?id=00070001">&lt; 总大肠菌群/耐热大肠菌/大肠埃希氏菌</a>
+
+                                   <dd>
+                                <ul id="00070001" style="display:none" class="third"> 
+                                    
+                                    <li><a href="Info.aspx?id=000700010012" class="000700010012">DST技术大肠菌群检测系统</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010001" class="000700010001">科立得试剂 24小时</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010002" class="000700010002">科立得试剂 18小时</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010003" class="000700010003">Colilert® 250</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010004" class="000700010004">Colisure®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010005" class="000700010005">51孔定量盘®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010006" class="000700010006">97孔定量盘®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010007" class="000700010007">无菌取样瓶</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010008" class="000700010008">标准阳性品</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010009" class="000700010009">程控定量封口机</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010015" class="000700010015">升级版程控定量封口机</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010010" class="000700010010">紫外灯及灯箱</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010013" class="000700010013">电热恒温培养箱</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010014" class="000700010014">涡旋振荡器</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010011" class="000700010011">隔水式恒温培养箱</a></li>
+                                    
+                                </ul>
+                             </dd>
+
+        					</dt>
+                            
+        					<dt><a class="" href="Info.aspx?id=00070002">&lt; 菌落总数</a>
+
+                                   <dd>
+                                <ul id="00070002" style="display:none" class="third"> 
+                                    
+                                    <li><a href="Info.aspx?id=000700010012" class="000700010012">DST技术大肠菌群检测系统</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010001" class="000700010001">科立得试剂 24小时</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010002" class="000700010002">科立得试剂 18小时</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010003" class="000700010003">Colilert® 250</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010004" class="000700010004">Colisure®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010005" class="000700010005">51孔定量盘®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010006" class="000700010006">97孔定量盘®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010007" class="000700010007">无菌取样瓶</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010008" class="000700010008">标准阳性品</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010009" class="000700010009">程控定量封口机</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010015" class="000700010015">升级版程控定量封口机</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010010" class="000700010010">紫外灯及灯箱</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010013" class="000700010013">电热恒温培养箱</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010014" class="000700010014">涡旋振荡器</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010011" class="000700010011">隔水式恒温培养箱</a></li>
+                                    
+                                </ul>
+                             </dd>
+
+        					</dt>
+                            
+        					<dt><a class="" href="Info.aspx?id=00070003">&lt; 肠球菌</a>
+
+                                   <dd>
+                                <ul id="00070003" style="display:none" class="third"> 
+                                    
+                                    <li><a href="Info.aspx?id=000700010012" class="000700010012">DST技术大肠菌群检测系统</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010001" class="000700010001">科立得试剂 24小时</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010002" class="000700010002">科立得试剂 18小时</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010003" class="000700010003">Colilert® 250</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010004" class="000700010004">Colisure®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010005" class="000700010005">51孔定量盘®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010006" class="000700010006">97孔定量盘®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010007" class="000700010007">无菌取样瓶</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010008" class="000700010008">标准阳性品</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010009" class="000700010009">程控定量封口机</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010015" class="000700010015">升级版程控定量封口机</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010010" class="000700010010">紫外灯及灯箱</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010013" class="000700010013">电热恒温培养箱</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010014" class="000700010014">涡旋振荡器</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010011" class="000700010011">隔水式恒温培养箱</a></li>
+                                    
+                                </ul>
+                             </dd>
+
+        					</dt>
+                            
+        					<dt><a class="" href="Info.aspx?id=00070004">&lt; 绿脓假单胞菌</a>
+
+                                   <dd>
+                                <ul id="00070004" style="display:none" class="third"> 
+                                    
+                                    <li><a href="Info.aspx?id=000700010012" class="000700010012">DST技术大肠菌群检测系统</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010001" class="000700010001">科立得试剂 24小时</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010002" class="000700010002">科立得试剂 18小时</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010003" class="000700010003">Colilert® 250</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010004" class="000700010004">Colisure®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010005" class="000700010005">51孔定量盘®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010006" class="000700010006">97孔定量盘®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010007" class="000700010007">无菌取样瓶</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010008" class="000700010008">标准阳性品</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010009" class="000700010009">程控定量封口机</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010015" class="000700010015">升级版程控定量封口机</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010010" class="000700010010">紫外灯及灯箱</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010013" class="000700010013">电热恒温培养箱</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010014" class="000700010014">涡旋振荡器</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010011" class="000700010011">隔水式恒温培养箱</a></li>
+                                    
+                                </ul>
+                             </dd>
+
+        					</dt>
+                            
+        					<dt><a class="" href="Info.aspx?id=00070005">&lt; 质量控制标准品</a>
+
+                                   <dd>
+                                <ul id="00070005" style="display:none" class="third"> 
+                                    
+                                    <li><a href="Info.aspx?id=000700010012" class="000700010012">DST技术大肠菌群检测系统</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010001" class="000700010001">科立得试剂 24小时</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010002" class="000700010002">科立得试剂 18小时</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010003" class="000700010003">Colilert® 250</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010004" class="000700010004">Colisure®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010005" class="000700010005">51孔定量盘®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010006" class="000700010006">97孔定量盘®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010007" class="000700010007">无菌取样瓶</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010008" class="000700010008">标准阳性品</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010009" class="000700010009">程控定量封口机</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010015" class="000700010015">升级版程控定量封口机</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010010" class="000700010010">紫外灯及灯箱</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010013" class="000700010013">电热恒温培养箱</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010014" class="000700010014">涡旋振荡器</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010011" class="000700010011">隔水式恒温培养箱</a></li>
+                                    
+                                </ul>
+                             </dd>
+
+        					</dt>
+                            
+        					<dt><a class="" href="Info.aspx?id=00070006">&lt; 隐孢子虫/贾第鞭毛虫</a>
+
+                                   <dd>
+                                <ul id="00070006" style="display:none" class="third"> 
+                                    
+                                    <li><a href="Info.aspx?id=000700010012" class="000700010012">DST技术大肠菌群检测系统</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010001" class="000700010001">科立得试剂 24小时</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010002" class="000700010002">科立得试剂 18小时</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010003" class="000700010003">Colilert® 250</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010004" class="000700010004">Colisure®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010005" class="000700010005">51孔定量盘®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010006" class="000700010006">97孔定量盘®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010007" class="000700010007">无菌取样瓶</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010008" class="000700010008">标准阳性品</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010009" class="000700010009">程控定量封口机</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010015" class="000700010015">升级版程控定量封口机</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010010" class="000700010010">紫外灯及灯箱</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010013" class="000700010013">电热恒温培养箱</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010014" class="000700010014">涡旋振荡器</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010011" class="000700010011">隔水式恒温培养箱</a></li>
+                                    
+                                </ul>
+                             </dd>
+
+        					</dt>
+                            
+        					<dt><a class="" href="Info.aspx?id=00070007">&lt; 通用设备</a>
+
+                                   <dd>
+                                <ul id="00070007" style="display:none" class="third"> 
+                                    
+                                    <li><a href="Info.aspx?id=000700010012" class="000700010012">DST技术大肠菌群检测系统</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010001" class="000700010001">科立得试剂 24小时</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010002" class="000700010002">科立得试剂 18小时</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010003" class="000700010003">Colilert® 250</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010004" class="000700010004">Colisure®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010005" class="000700010005">51孔定量盘®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010006" class="000700010006">97孔定量盘®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010007" class="000700010007">无菌取样瓶</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010008" class="000700010008">标准阳性品</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010009" class="000700010009">程控定量封口机</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010015" class="000700010015">升级版程控定量封口机</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010010" class="000700010010">紫外灯及灯箱</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010013" class="000700010013">电热恒温培养箱</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010014" class="000700010014">涡旋振荡器</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010011" class="000700010011">隔水式恒温培养箱</a></li>
+                                    
+                                </ul>
+                             </dd>
+
+        					</dt>
+                            
+        					<dt><a class="" href="Info.aspx?id=00070008">&lt; 嗜肺军团菌</a>
+
+                                   <dd>
+                                <ul id="00070008" style="display:none" class="third"> 
+                                    
+                                    <li><a href="Info.aspx?id=000700010012" class="000700010012">DST技术大肠菌群检测系统</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010001" class="000700010001">科立得试剂 24小时</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010002" class="000700010002">科立得试剂 18小时</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010003" class="000700010003">Colilert® 250</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010004" class="000700010004">Colisure®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010005" class="000700010005">51孔定量盘®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010006" class="000700010006">97孔定量盘®</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010007" class="000700010007">无菌取样瓶</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010008" class="000700010008">标准阳性品</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010009" class="000700010009">程控定量封口机</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010015" class="000700010015">升级版程控定量封口机</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010010" class="000700010010">紫外灯及灯箱</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010013" class="000700010013">电热恒温培养箱</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010014" class="000700010014">涡旋振荡器</a></li>
+                                    
+                                    <li><a href="Info.aspx?id=000700010011" class="000700010011">隔水式恒温培养箱</a></li>
+                                    
+                                </ul>
+                             </dd>
+
+        					</dt>
+                            
+        				
+        				</dl>
+                    </div>
+                    <div class="scrPanel">
+                        <div class="btnBack"></div>
+                        <div class="scrZone">
+                            <div class="scrHand"></div>
+                        </div>
+                        <div class="btnFord"></div>
+                    </div>
+                </div>
+			</div>
+             <script type="text/javascript">
+                $(function() {$('.scroll2').scrbarOn();});
+            </script>
+		</div>
+
+		<div class="main">
+			<div class="location"><a href="default.aspx" title="首页">首页</a>&nbsp;>&nbsp<a class='daohang' href="info.aspx?id=00070001" title="产品">产品</a>&nbsp;>&nbsp<a class='daohang' href="info.aspx?id=000700010012" title="总大肠菌群/耐热大肠菌/大肠埃希氏菌">总大肠菌群/耐热大肠菌/大肠埃希氏菌</a>&nbsp;>&nbsp<a class='daohang' href="display.aspx?id=1774" title="DST技术大肠菌群检测系统">DST技术大肠菌群检测系统</a></div>
+			<div class="scroll">
+				<div class="scrCont">
+					<div class="article clearfix">
+						<p>
+	<img width="649" height="389" style="width:635px;height:389px;" alt="" src="/Upload/editor/image/20150729/20150729151753_8129.jpg" /> 
+</p>
+<p>
+	<span style="font-family:Tahoma;font-size:12px;"><img width="16" height="18" alt="" src="/Upload/editor/image/20140627/20140627135949_3240.png" />文件</span><span style="font-family:Tahoma;font-size:12px;"><span style="font-family:Microsoft YaHei;font-size:12px;">下载</span><span style="font-family:Tahoma;font-size:12px;"></span> </span> 
+</p>
+<p>
+	<span style="font-family:Tahoma;font-size:12px;"><a href="http://pan.baidu.com/s/1ntsCI" target="_blank"><a class="ke-insertfile" href="/Upload/editor/file/20240130/20240130130341_5210.pdf" target="_blank">Sealer plus 封口机操作手册</a></a></span>
+</p>
+<p>
+	<a href="http://pan.baidu.com/s/1hqCP9J2" target="_blank"><a class="ke-insertfile" href="/Upload/editor/file/20240130/20240130130410_7530.pdf" target="_blank">2009D型封口机操作说明书</a></a> 
+</p>
+<p>
+	<a href="http://pan.baidu.com/s/1i33ufWh" target="_blank"><a class="ke-insertfile" href="/Upload/editor/file/20240130/20240130130250_2380.pdf" target="_blank">GB/T 5750.12-2023《生活饮用水标准检验方法》</a></a> 
+</p>
+<p>
+	<a href="http://pan.baidu.com/s/1i3pMY37" target="_blank">水质检测解决方案--产品手册 </a> 
+</p>
+<p>
+	<br />
+</p>
+<p>
+	<strong>DST技术大肠菌群检测系统</strong> 
+</p>
+<p>
+	可检测总大肠菌群、大肠埃希氏菌及粪（耐热）大肠菌群并提供质量控制。让您在开展新方法时再无后顾之忧。同时检测结果还可以供您方法扩项及实验室认证作为参考。
+</p>
+<p>
+	提供阳性及阴性菌株，用于检测整个实验的准确性及可靠性
+</p>
+<p>
+	科立得试剂可24小时同时检测总大肠菌群和大肠埃希氏菌或粪（耐热）大肠菌群
+</p>
+<p>
+	无需在无菌室内操作
+</p>
+<p>
+	<strong></strong> 
+</p>
+<p>
+	<strong>配置单：</strong> 
+</p>
+<p>
+	科立得试剂 20个
+</p>
+<p>
+	51孔定量盘 10个
+</p>
+<p>
+	97孔定量盘 10个
+</p>
+<p>
+	IDEXX无菌取样瓶 20个
+</p>
+<p>
+	97孔阳性比色盘 1个
+</p>
+<p>
+	紫外灯（6瓦，220V，366nm）
+</p>
+<p>
+	紫外灯箱（用于避免紫外线辐射）
+</p>
+<p>
+	2X型程控定量封口机（配合科立得试剂及定量盘使用，用于定量检测大肠菌群）
+</p>
+<p>
+	培养箱
+</p>
+<p>
+	<strong></strong> 
+</p>
+<p>
+	<strong>检测时间：</strong>24-28小时
+</p>
+<p>
+	<strong></strong> 
+</p>
+<p>
+	<strong>保质期： </strong> 
+</p>
+<p>
+	科立得试剂 12个月
+</p>
+<p>
+	51孔定量盘 36个月
+</p>
+<p>
+	97孔定量盘 36个月
+</p>
+<p>
+	IDEXX无菌取样瓶 36个月
+</p>
+<p>
+	97孔阳性比色盘 12个月
+</p>
+<p>
+	<strong></strong> 
+</p>
+<p>
+	<strong>阳性结果：样品变黄色表明总大肠菌群阳性或粪（耐热）大肠菌群阳性，黄色且显荧光表明大肠埃希阳性。无变化为阴性结果</strong> 
+</p>
+<p>
+	<br />
+</p>
+<p>
+	<br />
+</p>
+<p>
+	<br />
+</p>
+					</div>
+				</div>
+				<div class="scrPanel">
+					<div class="btnBack"></div>
+					<div class="scrZone">
+						<div class="scrHand"></div>
+					</div>
+					<div class="btnFord"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    $(function () { $('.scroll').scrbarOn(); });
+</script>
+</body>
+<!--[if lt IE 7]><script src="js/iepng.js"></script><![endif]-->
+</html>

@@ -1,0 +1,105 @@
+[
+  {
+    "id": "prod001",
+    "slug": "dst技术大肠菌群检测系统",
+    "name": "DST技术大肠菌群检测系统",
+    "category": {
+      "id": "5oC75aSn6IKg",
+      "name": "总大肠菌群检测",
+      "slug": "总大肠菌群检测"
+    },
+    "description": "DST技术大肠菌群检测系统，高精度检测解决方案",
+    "features": [
+      "高精度检测",
+      "快速出结果"
+    ],
+    "specifications": {},
+    "images": {
+      "main": "/images/products/dst技术大肠菌群检测系统-main.jpg",
+      "gallery": []
+    },
+    "seo": {
+      "title": "DST技术大肠菌群检测系统",
+      "description": "DST技术大肠菌群检测系统 - 专业的微生物检测解决方案",
+      "keywords": [
+        "微生物检测",
+        "水质分析",
+        "Assay Bio",
+        "检测技术",
+        "技术大肠菌群检测系统"
+      ]
+    },
+    "status": "active",
+    "createdAt": "2025-08-24T06:55:54.816Z",
+    "updatedAt": "2025-08-24T06:55:54.816Z"
+  },
+  {
+    "id": "prod002",
+    "slug": "科立得试剂-18小时",
+    "name": "科立得试剂 18小时",
+    "category": {
+      "id": "5oC75aSn6IKg",
+      "name": "总大肠菌群检测",
+      "slug": "总大肠菌群检测"
+    },
+    "description": "18小时快速检测试剂，符合国标要求",
+    "features": [
+      "18小时出结果",
+      "符合国标"
+    ],
+    "specifications": {},
+    "images": {
+      "main": "/images/products/科立得试剂-18小时-main.jpg",
+      "gallery": []
+    },
+    "seo": {
+      "title": "科立得试剂 18小时",
+      "description": "科立得试剂 18小时 - 专业的微生物检测解决方案",
+      "keywords": [
+        "微生物检测",
+        "水质分析",
+        "Assay Bio",
+        "检测技术",
+        "科立得试剂",
+        "小时"
+      ]
+    },
+    "status": "active",
+    "createdAt": "2025-08-24T06:55:54.816Z",
+    "updatedAt": "2025-08-24T06:55:54.816Z"
+  },
+  {
+    "id": "prod003",
+    "slug": "电热恒温培养箱",
+    "name": "电热恒温培养箱",
+    "category": {
+      "id": "5qOA5rWL6K6+",
+      "name": "检测设备",
+      "slug": "检测设备"
+    },
+    "description": "专业的恒温培养设备",
+    "features": [
+      "恒温控制",
+      "稳定可靠"
+    ],
+    "specifications": {},
+    "images": {
+      "main": "/images/products/电热恒温培养箱-main.jpg",
+      "gallery": []
+    },
+    "seo": {
+      "title": "电热恒温培养箱",
+      "description": "电热恒温培养箱 - 专业的微生物检测解决方案",
+      "keywords": [
+        "微生物检测",
+        "水质分析",
+        "Assay Bio",
+        "检测技术",
+        "电热恒温培养箱"
+      ]
+    },
+    "status": "active",
+    "createdAt": "2025-08-24T06:55:54.816Z",
+    "updatedAt": "2025-08-24T06:55:54.816Z"
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "name": "网站首页",
+  "url": "http://www.assaybio.cn/default.aspx",
+  "title": "上海安净生物技术有限公司 -Assay Biotechnology",
+  "wordCount": 1,
+  "imageCount": 4,
+  "linkCount": 11,
+  "scrapedAt": "2025-08-24T08:37:52.130Z",
+  "processingTime": 2544,
+  "strategy": "playwright",
+  "status": 200
+}

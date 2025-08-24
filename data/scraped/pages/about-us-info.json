@@ -1,0 +1,12 @@
+{
+  "name": "关于我们",
+  "url": "http://www.assaybio.cn/info.aspx?id=00010001",
+  "title": "",
+  "wordCount": 1,
+  "imageCount": 1,
+  "linkCount": 14,
+  "scrapedAt": "2025-08-24T08:37:52.129Z",
+  "processingTime": 2543,
+  "strategy": "playwright",
+  "status": 200
+}

@@ -1,0 +1,49 @@
+{
+  "site": {
+    "name": "AssayBio - 上海安净生物技术有限公司",
+    "url": "http://www.assaybio.cn",
+    "description": "专业的生物技术检测产品和解决方案提供商",
+    "scrapedAt": "2025-08-24T08:43:43.615Z",
+    "pages": 5
+  },
+  "pages": [
+    {
+      "id": "homepage",
+      "name": "网站首页",
+      "file": "homepage"
+    },
+    {
+      "id": "about-us",
+      "name": "关于我们",
+      "file": "about-us"
+    },
+    {
+      "id": "market-trend",
+      "name": "市场动向",
+      "file": "market-trend"
+    },
+    {
+      "id": "literature",
+      "name": "技术文献",
+      "file": "literature"
+    },
+    {
+      "id": "products",
+      "name": "产品中心",
+      "file": "products"
+    }
+  ],
+  "statistics": {
+    "totalWords": 5,
+    "totalImages": 40,
+    "totalLinks": 270,
+    "avgProcessingTime": 2534,
+    "successRate": "100%"
+  },
+  "directories": {
+    "pages": "pages/ - 页面内容文件",
+    "assets": "assets/ - 网站资源文件",
+    "reports": "reports/ - 抓取报告和数据",
+    "index": "index.html - 网站导航首页"
+  }
+}

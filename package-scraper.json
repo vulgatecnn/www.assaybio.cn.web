@@ -1,0 +1,20 @@
+{
+  "name": "assaybio-product-scraper",
+  "version": "1.0.0",
+  "description": "Product information scraper for AssayBio website",
+  "main": "product-scraper.js",
+  "scripts": {
+    "scrape": "node product-scraper.js",
+    "install-playwright": "npx playwright install chromium",
+    "test-single": "node test-single-product.js"
+  },
+  "dependencies": {
+    "playwright": "^1.40.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

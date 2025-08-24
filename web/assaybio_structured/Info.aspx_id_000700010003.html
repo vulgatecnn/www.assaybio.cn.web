@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<title></title>
+<meta content="" name="keywords"/>
+<meta content="" name="description"/>
+<link href="images/Kd_Common.css" rel="stylesheet" type="text/css"/>
+<link href="images/Kd_Inside.css" rel="stylesheet" type="text/css"/>
+<script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
+<script src="js/jquery.scrbar.js" type="text/javascript"></script>
+<script src="js/common.js" type="text/javascript"></script>
+<script src="js/jquery.SuperSlide.2.1.js" type="text/javascript"></script>
+</head>
+<body>
+<div class="header">
+<div class="wrap">
+<div class="copyright">
+<a href="http://beian.miit.gov.cn" target="_blank">沪ICP备19033946号-1</a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31011202012026" target="_blank"><img alt="" src="Upload/editor/image/20200103/20200103084118_7482.png" style="vertical-align:middle;margin-left:10px;"/>沪公网安备 31011202012026号</a> <a href="/Upload/editor/image/20230221/20230221155844_1967.jpg" target="_blank"><span style="color:#FFFFFF;">营业执照</span></a><br/>
+</div>
+<div class="iNav">
+<ul class="clearfix">
+<li><a class="" href="info.aspx?id=00010001">About Us<em>　　　　关于我们</em></a></li>
+<li><a class="" href="info.aspx?id=00050001">Literature<em>　　文献资料</em></a></li>
+<li><a class="" href="info.aspx?id=00020001">Market Trend<em>　　　　市场动向</em></a></li>
+<li><a class="current" href="info.aspx_id_00070001.html">Product<em>　　　　产品</em></a></li>
+<li><a class="" href="default.html">Home<em>　　首页</em></a></li>
+<div class="iNavBg"></div>
+</ul>
+</div>
+<script>	
+
+$(".iNav li").eq(1).addClass("iNav_2")
+	$(".iNav li").eq(3).addClass("iNav_4")
+	$(".iNav li a").each(function(i){
+		if($(this).attr("class")=="current"){
+			var parClass = $(".iNav li").eq(i).attr("class");
+			if(parClass=="iNav_2"||parClass=="iNav_4"){
+				$('.iNavBg').addClass("on");
+			}
+			$(".iNav li").eq(i).addClass("on")
+		}
+	})
+	$(".iNav li").hover(function(){
+		$(this).addClass("on");
+		if($(this).attr("class")=="iNav_2 on"||$(this).attr("class")=="iNav_4 on"){
+			$('.iNavBg').addClass("on")
+		}
+	},function(){
+		$(this).removeClass("on");
+		if($(this).attr("class")=="iNav_2"||$(this).attr("class")=="iNav_4"){
+			$('.iNavBg').removeClass("on")
+		}
+	})
+</script>
+</div>
+</div>
+<div class="container">
+<div class="wrap clearfix">
+<script type="text/javascript">
+    $(document).ready(function () {
+        var url = location.href;
+        var vlurl = getUrlParam("id");
+        var showid;
+
+        showid = vlurl.substring(0, 8);
+        var _this = $("#" + showid);
+        if (vlurl.length > 8) {
+            $("." + vlurl).addClass("current");
+
+        }
+        else {
+            _this.find("li a:first").addClass("current");
+        }
+        $("#" + showid).show();
+
+
+    });
+</script>
+<script>
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+</script>
+<div class="sidebar">
+<h2 class="colPicTitle">Product<em>产品</em></h2>
+<div class="menu">
+<div class="scroll2">
+<div class="scrCont">
+<dl>
+<dt><a class="" href="Info.aspx?id=00070001">&lt; 总大肠菌群/耐热大肠菌/大肠埃希氏菌</a>
+<dd>
+<ul class="third" id="00070001" style="display:none">
+<li><a class="000700010012" href="Info.aspx?id=000700010012">DST技术大肠菌群检测系统</a></li>
+<li><a class="000700010001" href="Info.aspx?id=000700010001">科立得试剂 24小时</a></li>
+<li><a class="000700010002" href="Info.aspx?id=000700010002">科立得试剂 18小时</a></li>
+<li><a class="000700010003" href="Info.aspx?id=000700010003">Colilert® 250</a></li>
+<li><a class="000700010004" href="Info.aspx_id_000700010004.html">Colisure®</a></li>
+<li><a class="000700010005" href="Info.aspx?id=000700010005">51孔定量盘®</a></li>
+<li><a class="000700010006" href="Info.aspx_id_000700010006.html">97孔定量盘®</a></li>
+<li><a class="000700010007" href="Info.aspx?id=000700010007">无菌取样瓶</a></li>
+<li><a class="000700010008" href="Info.aspx?id=000700010008">标准阳性品</a></li>
+<li><a class="000700010009" href="Info.aspx?id=000700010009">程控定量封口机</a></li>
+<li><a class="000700010015" href="Info.aspx?id=000700010015">升级版程控定量封口机</a></li>
+<li><a class="000700010010" href="Info.aspx?id=000700010010">紫外灯及灯箱</a></li>
+<li><a class="000700010013" href="Info.aspx?id=000700010013">电热恒温培养箱</a></li>
+<li><a class="000700010014" href="Info.aspx_id_000700010014.html">涡旋振荡器</a></li>
+<li><a class="000700010011" href="Info.aspx?id=000700010011">隔水式恒温培养箱</a></li>
+</ul>
+</dd>
+</dt>
+<dt><a class="" href="Info.aspx?id=00070002">&lt; 菌落总数</a>
+<dd>
+<ul class="third" id="00070002" style="display:none">
+<li><a class="000700010012" href="Info.aspx?id=000700010012">DST技术大肠菌群检测系统</a></li>
+<li><a class="000700010001" href="Info.aspx?id=000700010001">科立得试剂 24小时</a></li>
+<li><a class="000700010002" href="Info.aspx?id=000700010002">科立得试剂 18小时</a></li>
+<li><a class="000700010003" href="Info.aspx?id=000700010003">Colilert® 250</a></li>
+<li><a class="000700010004" href="Info.aspx_id_000700010004.html">Colisure®</a></li>
+<li><a class="000700010005" href="Info.aspx?id=000700010005">51孔定量盘®</a></li>
+<li><a class="000700010006" href="Info.aspx_id_000700010006.html">97孔定量盘®</a></li>
+<li><a class="000700010007" href="Info.aspx?id=000700010007">无菌取样瓶</a></li>
+<li><a class="000700010008" href="Info.aspx?id=000700010008">标准阳性品</a></li>
+<li><a class="000700010009" href="Info.aspx?id=000700010009">程控定量封口机</a></li>
+<li><a class="000700010015" href="Info.aspx?id=000700010015">升级版程控定量封口机</a></li>
+<li><a class="000700010010" href="Info.aspx?id=000700010010">紫外灯及灯箱</a></li>
+<li><a class="000700010013" href="Info.aspx?id=000700010013">电热恒温培养箱</a></li>
+<li><a class="000700010014" href="Info.aspx_id_000700010014.html">涡旋振荡器</a></li>
+<li><a class="000700010011" href="Info.aspx?id=000700010011">隔水式恒温培养箱</a></li>
+</ul>
+</dd>
+</dt>
+<dt><a class="" href="Info.aspx_id_00070003.html">&lt; 肠球菌</a>
+<dd>
+<ul class="third" id="00070003" style="display:none">
+<li><a class="000700010012" href="Info.aspx?id=000700010012">DST技术大肠菌群检测系统</a></li>
+<li><a class="000700010001" href="Info.aspx?id=000700010001">科立得试剂 24小时</a></li>
+<li><a class="000700010002" href="Info.aspx?id=000700010002">科立得试剂 18小时</a></li>
+<li><a class="000700010003" href="Info.aspx?id=000700010003">Colilert® 250</a></li>
+<li><a class="000700010004" href="Info.aspx_id_000700010004.html">Colisure®</a></li>
+<li><a class="000700010005" href="Info.aspx?id=000700010005">51孔定量盘®</a></li>
+<li><a class="000700010006" href="Info.aspx_id_000700010006.html">97孔定量盘®</a></li>
+<li><a class="000700010007" href="Info.aspx?id=000700010007">无菌取样瓶</a></li>
+<li><a class="000700010008" href="Info.aspx?id=000700010008">标准阳性品</a></li>
+<li><a class="000700010009" href="Info.aspx?id=000700010009">程控定量封口机</a></li>
+<li><a class="000700010015" href="Info.aspx?id=000700010015">升级版程控定量封口机</a></li>
+<li><a class="000700010010" href="Info.aspx?id=000700010010">紫外灯及灯箱</a></li>
+<li><a class="000700010013" href="Info.aspx?id=000700010013">电热恒温培养箱</a></li>
+<li><a class="000700010014" href="Info.aspx_id_000700010014.html">涡旋振荡器</a></li>
+<li><a class="000700010011" href="Info.aspx?id=000700010011">隔水式恒温培养箱</a></li>
+</ul>
+</dd>
+</dt>
+<dt><a class="" href="Info.aspx_id_00070004.html">&lt; 绿脓假单胞菌</a>
+<dd>
+<ul class="third" id="00070004" style="display:none">
+<li><a class="000700010012" href="Info.aspx?id=000700010012">DST技术大肠菌群检测系统</a></li>
+<li><a class="000700010001" href="Info.aspx?id=000700010001">科立得试剂 24小时</a></li>
+<li><a class="000700010002" href="Info.aspx?id=000700010002">科立得试剂 18小时</a></li>
+<li><a class="000700010003" href="Info.aspx?id=000700010003">Colilert® 250</a></li>
+<li><a class="000700010004" href="Info.aspx_id_000700010004.html">Colisure®</a></li>
+<li><a class="000700010005" href="Info.aspx?id=000700010005">51孔定量盘®</a></li>
+<li><a class="000700010006" href="Info.aspx_id_000700010006.html">97孔定量盘®</a></li>
+<li><a class="000700010007" href="Info.aspx?id=000700010007">无菌取样瓶</a></li>
+<li><a class="000700010008" href="Info.aspx?id=000700010008">标准阳性品</a></li>
+<li><a class="000700010009" href="Info.aspx?id=000700010009">程控定量封口机</a></li>
+<li><a class="000700010015" href="Info.aspx?id=000700010015">升级版程控定量封口机</a></li>
+<li><a class="000700010010" href="Info.aspx?id=000700010010">紫外灯及灯箱</a></li>
+<li><a class="000700010013" href="Info.aspx?id=000700010013">电热恒温培养箱</a></li>
+<li><a class="000700010014" href="Info.aspx_id_000700010014.html">涡旋振荡器</a></li>
+<li><a class="000700010011" href="Info.aspx?id=000700010011">隔水式恒温培养箱</a></li>
+</ul>
+</dd>
+</dt>
+<dt><a class="" href="Info.aspx?id=00070005">&lt; 质量控制标准品</a>
+<dd>
+<ul class="third" id="00070005" style="display:none">
+<li><a class="000700010012" href="Info.aspx?id=000700010012">DST技术大肠菌群检测系统</a></li>
+<li><a class="000700010001" href="Info.aspx?id=000700010001">科立得试剂 24小时</a></li>
+<li><a class="000700010002" href="Info.aspx?id=000700010002">科立得试剂 18小时</a></li>
+<li><a class="000700010003" href="Info.aspx?id=000700010003">Colilert® 250</a></li>
+<li><a class="000700010004" href="Info.aspx_id_000700010004.html">Colisure®</a></li>
+<li><a class="000700010005" href="Info.aspx?id=000700010005">51孔定量盘®</a></li>
+<li><a class="000700010006" href="Info.aspx_id_000700010006.html">97孔定量盘®</a></li>
+<li><a class="000700010007" href="Info.aspx?id=000700010007">无菌取样瓶</a></li>
+<li><a class="000700010008" href="Info.aspx?id=000700010008">标准阳性品</a></li>
+<li><a class="000700010009" href="Info.aspx?id=000700010009">程控定量封口机</a></li>
+<li><a class="000700010015" href="Info.aspx?id=000700010015">升级版程控定量封口机</a></li>
+<li><a class="000700010010" href="Info.aspx?id=000700010010">紫外灯及灯箱</a></li>
+<li><a class="000700010013" href="Info.aspx?id=000700010013">电热恒温培养箱</a></li>
+<li><a class="000700010014" href="Info.aspx_id_000700010014.html">涡旋振荡器</a></li>
+<li><a class="000700010011" href="Info.aspx?id=000700010011">隔水式恒温培养箱</a></li>
+</ul>
+</dd>
+</dt>
+<dt><a class="" href="Info.aspx?id=00070006">&lt; 隐孢子虫/贾第鞭毛虫</a>
+<dd>
+<ul class="third" id="00070006" style="display:none">
+<li><a class="000700010012" href="Info.aspx?id=000700010012">DST技术大肠菌群检测系统</a></li>
+<li><a class="000700010001" href="Info.aspx?id=000700010001">科立得试剂 24小时</a></li>
+<li><a class="000700010002" href="Info.aspx?id=000700010002">科立得试剂 18小时</a></li>
+<li><a class="000700010003" href="Info.aspx?id=000700010003">Colilert® 250</a></li>
+<li><a class="000700010004" href="Info.aspx_id_000700010004.html">Colisure®</a></li>
+<li><a class="000700010005" href="Info.aspx?id=000700010005">51孔定量盘®</a></li>
+<li><a class="000700010006" href="Info.aspx_id_000700010006.html">97孔定量盘®</a></li>
+<li><a class="000700010007" href="Info.aspx?id=000700010007">无菌取样瓶</a></li>
+<li><a class="000700010008" href="Info.aspx?id=000700010008">标准阳性品</a></li>
+<li><a class="000700010009" href="Info.aspx?id=000700010009">程控定量封口机</a></li>
+<li><a class="000700010015" href="Info.aspx?id=000700010015">升级版程控定量封口机</a></li>
+<li><a class="000700010010" href="Info.aspx?id=000700010010">紫外灯及灯箱</a></li>
+<li><a class="000700010013" href="Info.aspx?id=000700010013">电热恒温培养箱</a></li>
+<li><a class="000700010014" href="Info.aspx_id_000700010014.html">涡旋振荡器</a></li>
+<li><a class="000700010011" href="Info.aspx?id=000700010011">隔水式恒温培养箱</a></li>
+</ul>
+</dd>
+</dt>
+<dt><a class="" href="Info.aspx?id=00070007">&lt; 通用设备</a>
+<dd>
+<ul class="third" id="00070007" style="display:none">
+<li><a class="000700010012" href="Info.aspx?id=000700010012">DST技术大肠菌群检测系统</a></li>
+<li><a class="000700010001" href="Info.aspx?id=000700010001">科立得试剂 24小时</a></li>
+<li><a class="000700010002" href="Info.aspx?id=000700010002">科立得试剂 18小时</a></li>
+<li><a class="000700010003" href="Info.aspx?id=000700010003">Colilert® 250</a></li>
+<li><a class="000700010004" href="Info.aspx_id_000700010004.html">Colisure®</a></li>
+<li><a class="000700010005" href="Info.aspx?id=000700010005">51孔定量盘®</a></li>
+<li><a class="000700010006" href="Info.aspx_id_000700010006.html">97孔定量盘®</a></li>
+<li><a class="000700010007" href="Info.aspx?id=000700010007">无菌取样瓶</a></li>
+<li><a class="000700010008" href="Info.aspx?id=000700010008">标准阳性品</a></li>
+<li><a class="000700010009" href="Info.aspx?id=000700010009">程控定量封口机</a></li>
+<li><a class="000700010015" href="Info.aspx?id=000700010015">升级版程控定量封口机</a></li>
+<li><a class="000700010010" href="Info.aspx?id=000700010010">紫外灯及灯箱</a></li>
+<li><a class="000700010013" href="Info.aspx?id=000700010013">电热恒温培养箱</a></li>
+<li><a class="000700010014" href="Info.aspx_id_000700010014.html">涡旋振荡器</a></li>
+<li><a class="000700010011" href="Info.aspx?id=000700010011">隔水式恒温培养箱</a></li>
+</ul>
+</dd>
+</dt>
+<dt><a class="" href="Info.aspx?id=00070008">&lt; 嗜肺军团菌</a>
+<dd>
+<ul class="third" id="00070008" style="display:none">
+<li><a class="000700010012" href="Info.aspx?id=000700010012">DST技术大肠菌群检测系统</a></li>
+<li><a class="000700010001" href="Info.aspx?id=000700010001">科立得试剂 24小时</a></li>
+<li><a class="000700010002" href="Info.aspx?id=000700010002">科立得试剂 18小时</a></li>
+<li><a class="000700010003" href="Info.aspx?id=000700010003">Colilert® 250</a></li>
+<li><a class="000700010004" href="Info.aspx_id_000700010004.html">Colisure®</a></li>
+<li><a class="000700010005" href="Info.aspx?id=000700010005">51孔定量盘®</a></li>
+<li><a class="000700010006" href="Info.aspx_id_000700010006.html">97孔定量盘®</a></li>
+<li><a class="000700010007" href="Info.aspx?id=000700010007">无菌取样瓶</a></li>
+<li><a class="000700010008" href="Info.aspx?id=000700010008">标准阳性品</a></li>
+<li><a class="000700010009" href="Info.aspx?id=000700010009">程控定量封口机</a></li>
+<li><a class="000700010015" href="Info.aspx?id=000700010015">升级版程控定量封口机</a></li>
+<li><a class="000700010010" href="Info.aspx?id=000700010010">紫外灯及灯箱</a></li>
+<li><a class="000700010013" href="Info.aspx?id=000700010013">电热恒温培养箱</a></li>
+<li><a class="000700010014" href="Info.aspx_id_000700010014.html">涡旋振荡器</a></li>
+<li><a class="000700010011" href="Info.aspx?id=000700010011">隔水式恒温培养箱</a></li>
+</ul>
+</dd>
+</dt>
+</dl>
+</div>
+<div class="scrPanel">
+<div class="btnBack"></div>
+<div class="scrZone">
+<div class="scrHand"></div>
+</div>
+<div class="btnFord"></div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+                $(function() {$('.scroll2').scrbarOn();});
+            </script>
+</div>
+<div class="main">
+<div class="location"><a href="default.html" title="首页">首页</a> &gt; <a class="daohang" href="info.aspx_id_00070001.html" title="产品">产品</a> &gt; <a class="daohang" href="info.aspx_id_000700010012.html" title="总大肠菌群/耐热大肠菌/大肠埃希氏菌">总大肠菌群/耐热大肠菌/大肠埃希氏菌</a> &gt; <a class="daohang" href="info.aspx?id=000700010003" title="Colilert® 250">Colilert® 250</a></div>
+<div class="scroll">
+<div class="scrCont">
+<div class="article clearfix">
+<p>
+<br/>
+<span style="font-family:Microsoft YaHei;font-size:12px;"></span>
+</p>
+<p style="text-indent:2em;">
+<span style="font-family:Microsoft YaHei;font-size:12px;">
+<table align="left" border="0" bordercolor="#000000" cellpadding="2" cellspacing="0" class="ke-zeroborder" style="width:613px;height:447px;">
+<tbody>
+<tr>
+<td>
+<p>
+<img alt="" height="171" src="Upload/editor/image/20140627/20140627180605_8396.png" style="width:251px;height:178px;" width="230"/>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+<p align="left">
+<span style="font-family:Microsoft YaHei;font-size:14px;"><strong>Colilert®250 检测可在 24 小时内得到一份</strong></span>
+</p>
+<p align="left">
+<span style="font-family:Microsoft YaHei;font-size:14px;"><strong>250 mL 样品的大肠菌群／大肠埃希氏菌的检测结果。</strong></span>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+</td>
+<td>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:12px;"><img alt="" height="25" src="Upload/editor/image/20150729/20150729145220_6566.png" style="width:24px;height:21px;" width="28"/>英文品名：Colilert®250</span>
+</p>
+<p style="text-indent:2em;">
+<span style="font-family:Microsoft YaHei;font-size:12px;">中文品名：无</span>
+</p>
+<p style="text-indent:2em;">
+<span style="font-family:Microsoft YaHei;font-size:12px;">制 造  商：IDEXX</span>
+</p>
+<p style="text-indent:2em;">
+<span style="font-family:Microsoft YaHei;font-size:12px;">产      地：美国</span>
+</p>
+<p style="text-indent:2em;">
+<span style="font-family:Microsoft YaHei;font-size:12px;"></span>
+</p>
+<p style="text-indent:2em;">
+<span style="font-family:Microsoft YaHei;font-size:12px;">检测水样：瓶装水</span>
+</p>
+<p style="text-indent:2em;">
+<span style="font-family:Microsoft YaHei;font-size:12px;">检测对象：总大肠菌群、耐热大肠菌、</span>
+</p>
+<p style="text-indent:2em;">
+<span style="font-family:Microsoft YaHei;font-size:12px;"> 大肠埃希氏菌</span>
+</p>
+<p style="text-indent:2em;">
+<span style="font-family:Microsoft YaHei;font-size:12px;">检测内容：定性检测、定量检测</span>
+</p>
+<p style="text-indent:2em;">
+<span style="font-family:Microsoft YaHei;font-size:12px;">检测体积：250ml</span>
+</p>
+<p style="text-indent:2em;">
+<span style="font-family:Microsoft YaHei;font-size:12px;">检测时间：24小时</span>
+</p>
+<p style="text-indent:2em;">
+<span style="font-family:Microsoft YaHei;font-size:12px;"></span>
+</p>
+<p style="text-indent:2em;">
+<span style="font-family:Microsoft YaHei;font-size:12px;">货号：98-26017-00</span>
+</p>
+<p style="text-indent:2em;">
+<span style="font-family:Microsoft YaHei;font-size:12px;">规格：100个/盒</span>
+</p>
+<p style="text-indent:2em;">
+<span style="font-family:Microsoft YaHei;font-size:12px;">保存条件：2℃~30℃</span>
+</p>
+<p style="text-indent:2em;">
+<span style="font-family:Microsoft YaHei;font-size:12px;">有效期：12个月</span>
+</p>
+<p style="text-indent:2em;">
+<span style="font-family:Microsoft YaHei;font-size:12px;"></span>
+</p>
+<br/>
+</td>
+</tr>
+</tbody>
+</table>
+<br/>
+<span style="font-size:14px;"><br/>
+</span></span>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<span style="font-family:Tahoma;font-size:12px;"><img alt="" src="Upload/editor/image/20140630/20140630115649_8396.png"/><span style="font-family:Microsoft YaHei;"><strong> 使用方法</strong></span></span>
+</p>
+<p>
+<u><span style="color:#0066CC;"><a href="http://pan.baidu.com/s/1gd2ImeJ" target="_blank">Colilert250操作手册</a></span></u>
+</p>
+<p>
+<a href="http://pan.baidu.com/s/1eQIZJ02" target="_blank">QUANTI-CULT操作手册</a>
+</p>
+<p>
+<a href="http://pan.baidu.com/s/1kT8Gjv5" target="_blank">总大肠菌群及大肠埃希氏菌质控标样-QC操作说明</a>
+</p>
+<p>
+<a href="http://pan.baidu.com/s/1whsqq" target="_blank">粪大肠菌群质控标样-QC操作说明</a>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<span style="font-family:Tahoma;font-size:12px;"><img alt="" src="Upload/editor/image/20140630/20140630115649_8396.png"/><span style="font-family:Microsoft YaHei;"><strong> 合格证下载</strong></span></span>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+<span style="font-family:Microsoft YaHei;font-size:14px;"><strong>原理</strong></span>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:12px;"> Colilert 250 利用专利技术固定底物技术酶底物法® (DST®) 可同时检测总大肠菌群和大肠杆菌。 Colilert 采用 ONPG 和 MUG 两种营养指示剂，这两种试剂分别可以被大肠菌群的 β-半乳糖苷酶和大肠杆菌的 β-葡糖醛酸酶分解代谢。</span>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:12px;"> 当大肠菌群在 Colilert 250 中生长时，其使用 β-半乳糖苷酶分解代谢 ONPG，并使样品从无色变为黄色。</span>
+</p>
+<p>
+<br/>
+</p>
+<p align="center">
+<img alt="" src="Upload/editor/image/20140626/20140626104751_5583.jpg"/><img alt="" src="Upload/editor/image/20140626/20140626104756_7927.jpg"/>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:12px;"> 大肠杆菌使用 β-葡糖醛酸酶分解代谢 MUG 时，能够发出荧光。 因为绝大多数的非大肠菌群杂菌不产生这些酶，所以杂菌不能生长和产生干扰。</span>
+</p>
+<p>
+<br/>
+</p>
+<p align="center">
+<span style="font-family:Tahoma;font-size:12px;"> <img alt="" src="Upload/editor/image/20140626/20140626110940_2458.jpg"/><img alt="" src="Upload/editor/image/20140626/20140626110945_4333.jpg"/></span>
+</p>
+<span style="font-family:Tahoma;font-size:12px;">
+<p>
+<br/>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:12px;"> 少量的能产生这些酶的非大肠菌群的杂菌也会被 Colilert 250 的特殊配方的抑菌剂选择性抑制。</span>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:12px;"> 这种培养基和传统的培养基不同，传统的培养基提供了丰富的营养环境，可以同时支持目标微生物和非目标微生物的生长。 当非目标微生物生长并模仿目标微生物时，此时就产生了假阳性。 传统培养基中非目标微生物的生长还可以抑制目标微生物，这就导致假阴性的出现。 为了抑制非目标微生物，传统培养基通常加入高浓度的盐、洗涤剂或其他选择性的试剂——这些试剂可能会无意地抑制目标微生物，进而产生假阴性。</span>
+</p>
+<p>
+<br/>
+</p>
+</span>
+<p>
+<br/>
+</p>
+<p>
+<span style="font-size:14px;"><strong>优势</strong></span>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:14px;">1. 简单</span>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:14px;">操作便捷，简单培训。</span>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:14px;">单剂量包装，无需配置培养基。</span>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:14px;">无需由于滤膜堵塞及异养菌干扰导致的重复检测。</span>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:14px;">质控 (QC) 步骤可在 15 分钟内完成。</span>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:14px;">2. 快速</span>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:14px;">手工操作时间小于 1 分钟。</span>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:14px;">24 小时内同时检测大肠菌群和大肠埃希氏菌。</span>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:14px;">无需清洗玻璃器皿或菌落计数。</span>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:14px;">3. 准确</span>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:14px;">特异性检测大肠杆菌，排除不必要的公认非目标微生物干扰。</span>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:14px;">每 250 ml 水样中可抑制 500 万个异养杂菌。</span>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:14px;">排除传统方法中的主观解释。</span>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:14px;">每个样品可检测 1 个大肠菌群或耐热大肠菌或大肠埃希氏菌。</span>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:14px;">4. 独特</span>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:14px;">专门用于饮料生产企业对总大肠菌群、耐热大肠菌和大肠埃希氏菌的检测。</span><br/>
+<span style="font-family:Microsoft YaHei;font-size:14px;"> </span>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:14px;"></span>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:14px;"><br/>
+</span>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:14px;">5. 经济</span>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:14px;">能有效减少晚上和周末加班工作。</span>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:14px;">2–30°C下可保存 12 个月。</span>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<span style="font-family:Microsoft YaHei;font-size:14px;"><strong> 文献资料</strong></span>
+</p>
+<p>
+<span style="font-family:Tahoma;font-size:12px;"><img alt="" src="Upload/editor/image/20140630/20140630115649_8396.png"/><span style="font-family:Microsoft YaHei;"><strong> 技术文献下载</strong></span></span>
+</p>
+<p>
+<a href="http://pan.baidu.com/s/1gdEoa8z" target="_blank"><span style="font-family:Microsoft YaHei;">1-方法9222滤膜法检测总大肠菌群（英文版-1998年）</span></a>
+</p>
+<p>
+<a href="http://pan.baidu.com/s/1qWDpKCW" target="_blank"><span style="font-family:Microsoft YaHei;">2-Colilert250与ISO9380-12000(E)滤膜法比较（英文版-2011年）</span></a>
+</p>
+<p>
+<a href="http://pan.baidu.com/s/1c0dMubu" target="_blank"><span style="font-family:Microsoft YaHei;">3-科立得,Colilert-18,Colisure,51孔、97孔定量盘及SimPlate通过加拿大安大略省用于检测饮用水认证（英文版-2008年）</span></a>
+</p>
+<p>
+<a href="http://pan.baidu.com/s/1eQ96pwu" target="_blank"><span style="font-family:Microsoft YaHei;">4-方法9221A-C多管发酵法、方法9221D及方法9221E检测粪大肠菌群方法比较（英文版-1998年）</span></a>
+</p>
+<p>
+<a href="http://pan.baidu.com/s/1v1vci" target="_blank"><span style="font-family:Microsoft YaHei;">5-水与废水标准检测方法第21版通过科立得,Colisure,Colilert-18,51及97孔定量盘（英文版-2005年）</span></a>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+<p>
+<br/>
+</p>
+</div>
+</div>
+<div class="scrPanel">
+<div class="btnBack"></div>
+<div class="scrZone">
+<div class="scrHand"></div>
+</div>
+<div class="btnFord"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+    $(function () { $('.scroll').scrbarOn(); });
+</script>
+</body>
+<!--[if lt IE 7]><script src="js/iepng.js"></script><![endif]-->
+</html>

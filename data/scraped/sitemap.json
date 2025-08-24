@@ -1,0 +1,40 @@
+{
+  "name": "AssayBio网站地图",
+  "pages": [
+    {
+      "title": "市场动向-上海安净生物技术有限公司 -Assay Biotechnology",
+      "url": "http://www.assaybio.cn/info.aspx?id=00020001",
+      "lastModified": "2025-08-24T08:37:52.059Z",
+      "priority": 0.8,
+      "changeFreq": "monthly"
+    },
+    {
+      "title": "",
+      "url": "http://www.assaybio.cn/info.aspx?id=00010001",
+      "lastModified": "2025-08-24T08:37:52.129Z",
+      "priority": 0.8,
+      "changeFreq": "monthly"
+    },
+    {
+      "title": "上海安净生物技术有限公司 -Assay Biotechnology",
+      "url": "http://www.assaybio.cn/default.aspx",
+      "lastModified": "2025-08-24T08:37:52.130Z",
+      "priority": 1,
+      "changeFreq": "monthly"
+    },
+    {
+      "title": "技术文献-上海安净生物技术有限公司 -Assay Biotechnology",
+      "url": "http://www.assaybio.cn/info.aspx?id=00050001",
+      "lastModified": "2025-08-24T08:37:52.134Z",
+      "priority": 0.8,
+      "changeFreq": "monthly"
+    },
+    {
+      "title": "总大肠菌群/耐热大肠菌/大肠埃希氏菌-上海安净生物技术有限公司 -Assay Biotechnology",
+      "url": "http://www.assaybio.cn/info.aspx?id=00070001",
+      "lastModified": "2025-08-24T08:37:52.148Z",
+      "priority": 0.8,
+      "changeFreq": "monthly"
+    }
+  ]
+}

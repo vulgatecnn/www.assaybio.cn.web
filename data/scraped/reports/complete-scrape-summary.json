@@ -1,0 +1,59 @@
+{
+  "totalPages": 5,
+  "successCount": 5,
+  "failureCount": 0,
+  "duration": 2563,
+  "summary": {
+    "totalWords": 855,
+    "totalImages": 40,
+    "totalLinks": 270,
+    "avgProcessingTime": 2534.2,
+    "strategyCounts": {
+      "jsdom": 0,
+      "playwright": 5
+    },
+    "contentTypes": {
+      "text/html; charset=utf-8": 5
+    },
+    "statusCodes": {
+      "200": 5
+    }
+  },
+  "urls": [
+    {
+      "url": "http://www.assaybio.cn/info.aspx?id=00020001",
+      "title": "市场动向-上海安净生物技术有限公司 -Assay Biotechnology",
+      "strategy": "playwright",
+      "wordCount": 168,
+      "status": 200
+    },
+    {
+      "url": "http://www.assaybio.cn/info.aspx?id=00010001",
+      "title": "",
+      "strategy": "playwright",
+      "wordCount": 155,
+      "status": 200
+    },
+    {
+      "url": "http://www.assaybio.cn/default.aspx",
+      "title": "上海安净生物技术有限公司 -Assay Biotechnology",
+      "strategy": "playwright",
+      "wordCount": 55,
+      "status": 200
+    },
+    {
+      "url": "http://www.assaybio.cn/info.aspx?id=00050001",
+      "title": "技术文献-上海安净生物技术有限公司 -Assay Biotechnology",
+      "strategy": "playwright",
+      "wordCount": 159,
+      "status": 200
+    },
+    {
+      "url": "http://www.assaybio.cn/info.aspx?id=00070001",
+      "title": "总大肠菌群/耐热大肠菌/大肠埃希氏菌-上海安净生物技术有限公司 -Assay Biotechnology",
+      "strategy": "playwright",
+      "wordCount": 318,
+      "status": 200
+    }
+  ]
+}

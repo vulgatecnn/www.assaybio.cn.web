@@ -1,0 +1,504 @@
+{
+  "company": {
+    "name": "Assay Biotechnology",
+    "chineseName": "上海安净生物技术有限公司",
+    "description": "Assay Biotechnology成立于2009年，是一家新兴的专业技术服务公司。公司专注于 水中微生物检测技术及方法 的研发、引进和推广。对于国标106项规定中，6项微生物指标：总大肠菌群、耐热大肠菌、大肠埃希氏菌、菌落总数、隐孢子虫、贾第鞭毛虫的检测技术，均掌握了目前世界上较为先进的检验方法、技术，并销售相应设备及耗材，提供后续技术服务。在大肠菌群及菌落总数的检测领域，所推广的美国IDEXX DST固定底物技术酶底物法，是目前检测时间较短，检测条件较不受限制，检测效果较好的方法。从2009年只有寥寥数十家用户，发展至今已超过3000多家企事业单位用户,服务区域涵盖华东区、华北区、西北区。在隐孢子虫和贾第鞭毛虫检测领域，我们代理的美国IDEXX Filta-Max xpress检测系统，即是国标认证的方法之一，更是目前世界上较先进，自动化程度较高的两虫检测方法。我们只专注于水中微生物检测领域，我们更专心于提供系统、无忧的服务。",
+    "established": "2009",
+    "services": [
+      "水中微生物检测技术研发",
+      "检测设备销售与服务",
+      "技术培训与咨询",
+      "质量控制解决方案",
+      "技术支持"
+    ],
+    "specialties": [
+      "总大肠菌群检测技术",
+      "耐热大肠菌检测",
+      "大肠埃希氏菌检测",
+      "菌落总数检测",
+      "隐孢子虫检测",
+      "贾第鞭毛虫检测",
+      "DST固定底物技术",
+      "美国IDEXX检测系统"
+    ],
+    "contact": {
+      "offices": [
+        {
+          "name": "上海技术服务部",
+          "address": "上海市闵行区紫秀路100号 虹桥总部1号4栋6E",
+          "phone": "021 6449 3336",
+          "fax": "021 6449 3339",
+          "qq": "2043 967 936"
+        },
+        {
+          "name": "北京技术服务部",
+          "address": "北京市东城区灯市口大街33号国中商业大厦905",
+          "phone": "010 6512 9636",
+          "fax": "010 6512 9639"
+        },
+        {
+          "name": "济南技术服务部",
+          "address": "济南市市中区二环南路6636号中海广场三层 309单元",
+          "phone": "13708974108、18660139599",
+          "fax": ""
+        }
+      ],
+      "address": "上海市闵行区紫秀路100号 虹桥总部1号4栋6E",
+      "phone": "021 6449 3336",
+      "email": "info@assaybio.cn"
+    }
+  },
+  "products": [
+    {
+      "id": "prod-001",
+      "slug": "dst-coliform-detection-system",
+      "name": "DST技术大肠菌群检测系统",
+      "category": "大肠菌群检测",
+      "type": "检测系统",
+      "brand": "IDEXX",
+      "description": "基于DST(定义底物技术)的先进大肠菌群检测系统，提供快速、准确的检测结果。",
+      "features": [
+        "DST固定底物技术",
+        "检测时间短",
+        "操作简便",
+        "结果可靠"
+      ],
+      "applications": [
+        "生活饮用水检测",
+        "环境水质监测",
+        "工业用水检测"
+      ],
+      "specifications": {
+        "检测时间": "18-24小时",
+        "检测范围": "≥1 CFU/100mL",
+        "精确度": "≥95%"
+      },
+      "image": "/images/products/dst-system.jpg",
+      "price": "询价",
+      "inStock": true
+    },
+    {
+      "id": "prod-002",
+      "slug": "colilert-24h",
+      "name": "科立得试剂 24小时",
+      "category": "大肠菌群检测",
+      "type": "检测试剂",
+      "brand": "IDEXX",
+      "description": "24小时快速检测总大肠菌群和大肠埃希氏菌的专用试剂。",
+      "features": [
+        "24小时出结果",
+        "同时检测总大肠菌群和大肠埃希氏菌",
+        "无需确认试验",
+        "假阳性率低"
+      ],
+      "applications": [
+        "饮用水检测",
+        "废水监测",
+        "游泳池水检测"
+      ],
+      "specifications": {
+        "检测时间": "24小时",
+        "包装规格": "100/盒",
+        "存储条件": "2-8°C"
+      },
+      "image": "/images/products/colilert-24h.jpg",
+      "price": "询价",
+      "inStock": true
+    },
+    {
+      "id": "prod-003",
+      "slug": "colilert-18h",
+      "name": "科立得试剂 18小时",
+      "category": "大肠菌群检测",
+      "type": "检测试剂",
+      "brand": "IDEXX",
+      "description": "18小时快速检测总大肠菌群和大肠埃希氏菌的专用试剂。",
+      "features": [
+        "18小时快速检测",
+        "高灵敏度",
+        "操作简便",
+        "结果准确"
+      ],
+      "applications": [
+        "应急检测",
+        "快速筛查",
+        "实验室常规检测"
+      ],
+      "specifications": {
+        "检测时间": "18小时",
+        "包装规格": "100/盒",
+        "存储条件": "2-8°C"
+      },
+      "image": "/images/products/colilert-18h.jpg",
+      "price": "询价",
+      "inStock": true
+    },
+    {
+      "id": "prod-004",
+      "slug": "colilert-250",
+      "name": "Colilert® 250",
+      "category": "大肠菌群检测",
+      "type": "检测试剂",
+      "brand": "IDEXX",
+      "description": "高容量检测试剂，适用于大批量样品检测。",
+      "features": [
+        "大包装规格",
+        "成本效益高",
+        "检测标准一致",
+        "质量稳定"
+      ],
+      "applications": [
+        "大批量检测",
+        "商业实验室",
+        "水厂质控"
+      ],
+      "specifications": {
+        "检测时间": "24小时",
+        "包装规格": "250/盒",
+        "存储条件": "2-8°C"
+      },
+      "image": "/images/products/colilert-250.jpg",
+      "price": "询价",
+      "inStock": true
+    },
+    {
+      "id": "prod-005",
+      "slug": "colisure",
+      "name": "Colisure®",
+      "category": "大肠菌群检测",
+      "type": "检测试剂",
+      "brand": "IDEXX",
+      "description": "专用于肠球菌检测的试剂。",
+      "features": [
+        "专一性强",
+        "假阳性率低",
+        "操作简便",
+        "结果可靠"
+      ],
+      "applications": [
+        "环境水质监测",
+        "海水检测",
+        "污染源追踪"
+      ],
+      "specifications": {
+        "检测时间": "24小时",
+        "包装规格": "100/盒",
+        "存储条件": "2-8°C"
+      },
+      "image": "/images/products/colisure.jpg",
+      "price": "询价",
+      "inStock": true
+    },
+    {
+      "id": "prod-006",
+      "slug": "quanti-tray-51",
+      "name": "51孔定量盘®",
+      "category": "检测耗材",
+      "type": "定量盘",
+      "brand": "IDEXX",
+      "description": "用于定量检测的51孔定量盘。",
+      "features": [
+        "精确定量",
+        "操作简便",
+        "结果直观",
+        "成本适中"
+      ],
+      "applications": [
+        "定量检测",
+        "浓度测定",
+        "质量控制"
+      ],
+      "specifications": {
+        "孔数": "51孔",
+        "检测范围": "1-200 CFU/100mL",
+        "包装规格": "200片/盒"
+      },
+      "image": "/images/products/quanti-tray-51.jpg",
+      "price": "询价",
+      "inStock": true
+    },
+    {
+      "id": "prod-007",
+      "slug": "quanti-tray-97",
+      "name": "97孔定量盘®",
+      "category": "检测耗材",
+      "type": "定量盘",
+      "brand": "IDEXX",
+      "description": "用于高精度定量检测的97孔定量盘。",
+      "features": [
+        "高精度定量",
+        "更宽检测范围",
+        "统计学优势",
+        "国际标准"
+      ],
+      "applications": [
+        "精确定量",
+        "科研应用",
+        "标准检测"
+      ],
+      "specifications": {
+        "孔数": "97孔",
+        "检测范围": "1-2000 CFU/100mL",
+        "包装规格": "200片/盒"
+      },
+      "image": "/images/products/quanti-tray-97.jpg",
+      "price": "询价",
+      "inStock": true
+    },
+    {
+      "id": "prod-008",
+      "slug": "sterile-sample-bottle",
+      "name": "无菌取样瓶",
+      "category": "检测耗材",
+      "type": "取样设备",
+      "brand": "通用",
+      "description": "专用于水样采集的无菌取样瓶。",
+      "features": [
+        "无菌包装",
+        "密封性好",
+        "操作方便",
+        "符合标准"
+      ],
+      "applications": [
+        "水样采集",
+        "样品运输",
+        "质量保证"
+      ],
+      "specifications": {
+        "容量": "120mL/250mL",
+        "材质": "PP",
+        "包装规格": "100个/箱"
+      },
+      "image": "/images/products/sample-bottle.jpg",
+      "price": "询价",
+      "inStock": true
+    },
+    {
+      "id": "prod-009",
+      "slug": "positive-control",
+      "name": "标准阳性品",
+      "category": "质量控制",
+      "type": "标准品",
+      "brand": "IDEXX",
+      "description": "用于质量控制的标准阳性品。",
+      "features": [
+        "标准菌株",
+        "浓度准确",
+        "稳定性好",
+        "溯源性强"
+      ],
+      "applications": [
+        "质量控制",
+        "方法验证",
+        "能力验证"
+      ],
+      "specifications": {
+        "菌株": "E.coli ATCC 25922",
+        "浓度": "10^4-10^5 CFU/mL",
+        "包装规格": "10支/盒"
+      },
+      "image": "/images/products/positive-control.jpg",
+      "price": "询价",
+      "inStock": true
+    },
+    {
+      "id": "prod-010",
+      "slug": "quanti-tray-sealer",
+      "name": "程控定量封口机",
+      "category": "检测设备",
+      "type": "封口设备",
+      "brand": "IDEXX",
+      "description": "专用于定量盘封口的程控设备。",
+      "features": [
+        "程控操作",
+        "密封可靠",
+        "效率高",
+        "故障率低"
+      ],
+      "applications": [
+        "定量盘封口",
+        "批量操作",
+        "实验室自动化"
+      ],
+      "specifications": {
+        "封口速度": "6-8秒/片",
+        "电源": "220V/50Hz",
+        "功率": "200W"
+      },
+      "image": "/images/products/sealer.jpg",
+      "price": "询价",
+      "inStock": true
+    },
+    {
+      "id": "prod-011",
+      "slug": "uv-lamp-box",
+      "name": "紫外灯及灯箱",
+      "category": "检测设备",
+      "type": "观察设备",
+      "brand": "通用",
+      "description": "用于观察荧光反应的紫外灯设备。",
+      "features": [
+        "波长准确",
+        "亮度均匀",
+        "使用寿命长",
+        "观察清晰"
+      ],
+      "applications": [
+        "荧光观察",
+        "结果判读",
+        "质量检查"
+      ],
+      "specifications": {
+        "波长": "365nm",
+        "功率": "6W/8W",
+        "尺寸": "多种规格"
+      },
+      "image": "/images/products/uv-lamp.jpg",
+      "price": "询价",
+      "inStock": true
+    },
+    {
+      "id": "prod-012",
+      "slug": "incubator-electric",
+      "name": "电热恒温培养箱",
+      "category": "通用设备",
+      "type": "培养设备",
+      "brand": "通用",
+      "description": "精确控温的电热恒温培养箱。",
+      "features": [
+        "温控精确",
+        "均匀性好",
+        "节能环保",
+        "操作简便"
+      ],
+      "applications": [
+        "细菌培养",
+        "恒温试验",
+        "样品保存"
+      ],
+      "specifications": {
+        "温度范围": "室温+5°C-65°C",
+        "温度精度": "±0.5°C",
+        "容积": "80L-500L"
+      },
+      "image": "/images/products/electric-incubator.jpg",
+      "price": "询价",
+      "inStock": true
+    },
+    {
+      "id": "prod-013",
+      "slug": "vortex-mixer",
+      "name": "涡旋振荡器",
+      "category": "通用设备",
+      "type": "混合设备",
+      "brand": "通用",
+      "description": "用于样品混匀的涡旋振荡器。",
+      "features": [
+        "混合均匀",
+        "速度可调",
+        "噪音低",
+        "操作简便"
+      ],
+      "applications": [
+        "样品混匀",
+        "试剂溶解",
+        "细胞悬浮"
+      ],
+      "specifications": {
+        "转速": "0-3000rpm",
+        "振荡幅度": "4.5mm",
+        "功率": "30W"
+      },
+      "image": "/images/products/vortex-mixer.jpg",
+      "price": "询价",
+      "inStock": true
+    },
+    {
+      "id": "prod-014",
+      "slug": "water-bath-incubator",
+      "name": "隔水式恒温培养箱",
+      "category": "通用设备",
+      "type": "培养设备",
+      "brand": "通用",
+      "description": "采用隔水式加热的恒温培养箱。",
+      "features": [
+        "温度均匀",
+        "湿度适宜",
+        "防干烧保护",
+        "安全可靠"
+      ],
+      "applications": [
+        "细菌培养",
+        "生化反应",
+        "恒温试验"
+      ],
+      "specifications": {
+        "温度范围": "室温+5°C-65°C",
+        "温度波动度": "±0.5°C",
+        "容积": "80L-500L"
+      },
+      "image": "/images/products/water-bath-incubator.jpg",
+      "price": "询价",
+      "inStock": true
+    },
+    {
+      "id": "prod-015",
+      "slug": "upgraded-sealer",
+      "name": "升级版程控定量封口机",
+      "category": "检测设备",
+      "type": "封口设备",
+      "brand": "IDEXX",
+      "description": "新一代程控定量封口机，性能更强。",
+      "features": [
+        "智能控制",
+        "密封性更好",
+        "操作更简便",
+        "维护成本低"
+      ],
+      "applications": [
+        "高通量检测",
+        "自动化实验室",
+        "精密封口"
+      ],
+      "specifications": {
+        "封口速度": "4-6秒/片",
+        "电源": "220V/50Hz",
+        "功率": "250W"
+      },
+      "image": "/images/products/upgraded-sealer.jpg",
+      "price": "询价",
+      "inStock": true
+    }
+  ],
+  "news": [
+    {
+      "id": "news-wechat-platform-launch",
+      "slug": "微信平台上线",
+      "title": "微信平台上线",
+      "excerpt": "今天，2月12日，是个大日子。因为我们的水中微生物技术交流微信平台正式上线了！",
+      "content": "今天，2月12日，是个大日子。因为我们的水中微生物技术交流微信平台正式上线了！\n\n\"水中的放大镜\"是这个微信平台的名字，你喜欢吗？这可是费了好多脑细胞才最后定下来的。一来，这个名字清晰地表现了这个平台的定位；再者，相信每个人的童年，放大镜都曾带给我们探索微观世界的无限乐趣。\n\n从今天起，这个微信号将成为我们工作的平台和小助手，交流最新的技术，发布最新的活动，分享成长的点滴……\n\n让我们一起快乐地拿起\"水中的放大镜\"吧。\n\n（扫一扫这个二维码，或输入\"水中的放大镜\"即可关注我们）",
+      "author": "Assay Bio Team",
+      "publishDate": "2024-02-12",
+      "category": "公司动态",
+      "tags": [
+        "微信平台",
+        "技术交流",
+        "水中的放大镜"
+      ],
+      "featured": true,
+      "seo": {
+        "title": "微信平台上线 - 水中的放大镜",
+        "description": "我们的水中微生物技术交流微信平台正式上线了！水中的放大镜，成为我们工作的平台和小助手。",
+        "keywords": [
+          "微信平台",
+          "水中的放大镜",
+          "微生物检测",
+          "技术交流",
+          "Assay Bio"
+        ]
+      }
+    }
+  ],
+  "documents": [],
+  "pages": []
+}

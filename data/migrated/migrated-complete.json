@@ -1,0 +1,228 @@
+{
+  "company": {
+    "name": "Assay Biotechnology",
+    "description": "Assay Biotechnology成立于2009年，是一家新兴的专业技术服务公司。公司专注于水中微生物检测技术及方法的研发、引进和推广。",
+    "established": "2009",
+    "services": [
+      "水中微生物检测技术研发",
+      "检测设备销售与服务",
+      "技术培训与咨询",
+      "质量控制解决方案"
+    ],
+    "contact": {
+      "address": "上海市",
+      "phone": "021-XXXXXXXX",
+      "email": "info@assaybio.cn"
+    }
+  },
+  "products": [
+    {
+      "id": "prod001",
+      "slug": "dst技术大肠菌群检测系统",
+      "name": "DST技术大肠菌群检测系统",
+      "category": {
+        "id": "5oC75aSn6IKg",
+        "name": "总大肠菌群检测",
+        "slug": "总大肠菌群检测"
+      },
+      "description": "DST技术大肠菌群检测系统，高精度检测解决方案",
+      "features": [
+        "高精度检测",
+        "快速出结果"
+      ],
+      "specifications": {},
+      "images": {
+        "main": "/images/products/dst技术大肠菌群检测系统-main.jpg",
+        "gallery": []
+      },
+      "seo": {
+        "title": "DST技术大肠菌群检测系统",
+        "description": "DST技术大肠菌群检测系统 - 专业的微生物检测解决方案",
+        "keywords": [
+          "微生物检测",
+          "水质分析",
+          "Assay Bio",
+          "检测技术",
+          "技术大肠菌群检测系统"
+        ]
+      },
+      "status": "active",
+      "createdAt": "2025-08-24T06:55:54.816Z",
+      "updatedAt": "2025-08-24T06:55:54.816Z"
+    },
+    {
+      "id": "prod002",
+      "slug": "科立得试剂-18小时",
+      "name": "科立得试剂 18小时",
+      "category": {
+        "id": "5oC75aSn6IKg",
+        "name": "总大肠菌群检测",
+        "slug": "总大肠菌群检测"
+      },
+      "description": "18小时快速检测试剂，符合国标要求",
+      "features": [
+        "18小时出结果",
+        "符合国标"
+      ],
+      "specifications": {},
+      "images": {
+        "main": "/images/products/科立得试剂-18小时-main.jpg",
+        "gallery": []
+      },
+      "seo": {
+        "title": "科立得试剂 18小时",
+        "description": "科立得试剂 18小时 - 专业的微生物检测解决方案",
+        "keywords": [
+          "微生物检测",
+          "水质分析",
+          "Assay Bio",
+          "检测技术",
+          "科立得试剂",
+          "小时"
+        ]
+      },
+      "status": "active",
+      "createdAt": "2025-08-24T06:55:54.816Z",
+      "updatedAt": "2025-08-24T06:55:54.816Z"
+    },
+    {
+      "id": "prod003",
+      "slug": "电热恒温培养箱",
+      "name": "电热恒温培养箱",
+      "category": {
+        "id": "5qOA5rWL6K6+",
+        "name": "检测设备",
+        "slug": "检测设备"
+      },
+      "description": "专业的恒温培养设备",
+      "features": [
+        "恒温控制",
+        "稳定可靠"
+      ],
+      "specifications": {},
+      "images": {
+        "main": "/images/products/电热恒温培养箱-main.jpg",
+        "gallery": []
+      },
+      "seo": {
+        "title": "电热恒温培养箱",
+        "description": "电热恒温培养箱 - 专业的微生物检测解决方案",
+        "keywords": [
+          "微生物检测",
+          "水质分析",
+          "Assay Bio",
+          "检测技术",
+          "电热恒温培养箱"
+        ]
+      },
+      "status": "active",
+      "createdAt": "2025-08-24T06:55:54.816Z",
+      "updatedAt": "2025-08-24T06:55:54.816Z"
+    }
+  ],
+  "news": [
+    {
+      "id": "bmV3cy0wMTc1",
+      "slug": "2024年水质检测技术发展趋势",
+      "title": "2024年水质检测技术发展趋势",
+      "excerpt": "随着环保要求的提高，水质检测技术不断发展...",
+      "content": "随着环保要求的提高，水质检测技术不断发展...",
+      "author": "Assay Bio Team",
+      "publishDate": "2024-03-01",
+      "category": "行业动态",
+      "tags": [
+        "技术发展",
+        "行业趋势"
+      ],
+      "featured": true,
+      "seo": {
+        "title": "2024年水质检测技术发展趋势",
+        "description": "随着环保要求的提高，水质检测技术不断发展...",
+        "keywords": [
+          "微生物检测",
+          "水质分析",
+          "Assay Bio",
+          "检测技术",
+          "年水质检测技术发展趋势"
+        ]
+      }
+    },
+    {
+      "id": "bmV3cy0xMTc1",
+      "slug": "assay-bio参加国际环保展览会",
+      "title": "Assay Bio参加国际环保展览会",
+      "excerpt": "公司携最新检测设备参加2024国际环保展...",
+      "content": "公司携最新检测设备参加2024国际环保展...",
+      "author": "Assay Bio Team",
+      "publishDate": "2024-03-15",
+      "category": "公司动态",
+      "tags": [
+        "展览会",
+        "公司新闻"
+      ],
+      "featured": true,
+      "seo": {
+        "title": "Assay Bio参加国际环保展览会",
+        "description": "公司携最新检测设备参加2024国际环保展...",
+        "keywords": [
+          "微生物检测",
+          "水质分析",
+          "Assay Bio",
+          "检测技术",
+          "参加国际环保展览会"
+        ]
+      }
+    }
+  ],
+  "documents": [
+    {
+      "id": "ZG9jLTAxNzU2",
+      "title": "DST技术应用指南",
+      "type": "manual",
+      "category": "技术手册",
+      "description": "DST技术详细应用指南",
+      "fileUrl": "",
+      "downloadCount": 0,
+      "tags": [
+        "技术指南",
+        "检测技术"
+      ],
+      "publishDate": "2024-01-15"
+    },
+    {
+      "id": "ZG9jLTExNzU2",
+      "title": "水质检测标准规范",
+      "type": "specification",
+      "category": "技术规范",
+      "description": "国家标准水质检测规范文件",
+      "fileUrl": "",
+      "downloadCount": 0,
+      "tags": [
+        "国家标准",
+        "检测规范"
+      ],
+      "publishDate": "2024-02-01"
+    }
+  ],
+  "pages": [
+    {
+      "id": "cGFnZS0wMTc1",
+      "slug": "关于我们-assay-biotechnology",
+      "title": "关于我们 - Assay Biotechnology",
+      "content": "Assay Biotechnology成立于2009年，专注于水中微生物检测技术...",
+      "template": "about",
+      "seo": {
+        "title": "关于我们 - Assay Biotechnology",
+        "description": "Assay Biotechnology成立于2009年，专注于水中微生物检测技术...",
+        "keywords": [
+          "微生物检测",
+          "水质分析",
+          "Assay Bio",
+          "检测技术",
+          "关于我们"
+        ]
+      },
+      "status": "published"
+    }
+  ]
+}
