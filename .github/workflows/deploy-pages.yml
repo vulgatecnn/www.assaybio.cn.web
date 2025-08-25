@@ -47,21 +47,12 @@ jobs:
           fi
         fi
         
-    - name: Copy crawled content
+    - name: Copy Vue.js build output
       run: |
-        # 如果有爬虫下载的内容，复制到根目录
-        if [ -d "web" ]; then
-          LATEST_CRAWL=$(find web -name "assaybio*" -type d | head -1)
-          if [ -d "$LATEST_CRAWL" ]; then
-            echo "复制爬虫内容: $LATEST_CRAWL"
-            cp -r "$LATEST_CRAWL"/* .
-          fi
-        fi
-        
-        # 复制已经爬取好的测试内容
-        if [ -d "test_homepage_fixed" ]; then
-          echo "复制测试内容"
-          cp -r test_homepage_fixed/* .
+        # 复制Vue.js构建产物到根目录
+        if [ -d "apps/website/dist" ]; then
+          echo "复制Vue.js构建产物"
+          cp -r apps/website/dist/* .
         fi
         
     - name: Setup Pages
