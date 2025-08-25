@@ -37,6 +37,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}/assaybio-website
   PRODUCTION_SERVER: '192.3.11.106'
   PRODUCTION_USER: 'root'
+  PRODUCTION_PORT: '6500'
   
 jobs:
   # ===================
@@ -407,7 +408,7 @@ jobs:
     
     environment:
       name: production
-      url: http://${{ env.PRODUCTION_SERVER }}
+      url: http://${{ env.PRODUCTION_SERVER }}:${{ env.PRODUCTION_PORT }}
       
     steps:
       - name: 📦 Download Build Artifacts
@@ -421,7 +422,7 @@ jobs:
           # 创建优化的nginx配置
           cat > nginx-site.conf << 'EOF'
           server {
-              listen 80;
+              listen 6500;
               server_name _;
               root /opt/assaybio-website/current/dist;
               index index.html;
@@ -554,10 +555,10 @@ jobs:
           
           # 健康检查
           for i in {1..5}; do
-              if curl -f -s http://localhost/health > /dev/null; then
+              if curl -f -s http://localhost:6500/health > /dev/null; then
                   log "✅ 健康检查通过 ($i/5)"
                   PUBLIC_IP=$(curl -s ifconfig.me || hostname -I | awk '{print $1}')
-                  log "🌐 部署完成！访问地址: http://$PUBLIC_IP"
+                  log "🌐 部署完成！访问地址: http://$PUBLIC_IP:6500"
                   exit 0
               fi
               log "⚠️  健康检查失败，重试 ($i/5)..."
@@ -565,7 +566,7 @@ jobs:
           done
           
           log "⚠️  健康检查超时，但部署可能已完成"
-          log "🌐 请手动检查: http://$(hostname -I | awk '{print $1}')"
+          log "🌐 请手动检查: http://$(hostname -I | awk '{print $1}'):6500"
           EOF
           
           chmod +x deploy.sh
@@ -641,9 +642,9 @@ jobs:
           ATTEMPT=1
           
           while [ $ATTEMPT -le $MAX_ATTEMPTS ]; do
-            if curl -f -s -m 30 http://${{ env.PRODUCTION_SERVER }}/ > /dev/null; then
+            if curl -f -s -m 30 http://${{ env.PRODUCTION_SERVER }}:6500/ > /dev/null; then
               echo "✅ 部署验证成功！网站正常运行 (尝试 $ATTEMPT/$MAX_ATTEMPTS)"
-              echo "🌐 访问地址: http://${{ env.PRODUCTION_SERVER }}"
+              echo "🌐 访问地址: http://${{ env.PRODUCTION_SERVER }}:6500"
               echo "📊 构建版本: ${{ needs.build-and-test.outputs.build-version }}"
               echo "📅 部署时间: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
               exit 0
@@ -655,7 +656,7 @@ jobs:
           done
           
           echo "⚠️  验证超时，但部署可能已完成"
-          echo "🔍 请手动检查: http://${{ env.PRODUCTION_SERVER }}"
+          echo "🔍 请手动检查: http://${{ env.PRODUCTION_SERVER }}:6500"
           exit 0
 
   # ===================
@@ -676,7 +677,7 @@ jobs:
           echo "|------|------|------|" >> $GITHUB_STEP_SUMMARY
           echo "| 📦 构建 | ${{ needs.build-and-test.result == 'success' && '✅ 成功' || '❌ 失败' }} | 版本: ${{ needs.build-and-test.outputs.build-version }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 🚀 部署 | ${{ needs.deploy-production.result == 'success' && '✅ 成功' || '❌ 失败' }} | 服务器: ${{ env.PRODUCTION_SERVER }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 🌐 访问地址 | 🔗 链接 | http://${{ env.PRODUCTION_SERVER }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🌐 访问地址 | 🔗 链接 | http://${{ env.PRODUCTION_SERVER }}:6500 |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**部署时间**: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
           echo "**Git提交**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
