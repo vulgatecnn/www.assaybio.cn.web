@@ -45,10 +45,10 @@ RUN mkdir -p apps/website/public/images && \
 
 # 构建应用
 RUN cd apps/website && \
-    (npm run build || npx vite build --mode production || npx vite build || \
-    (echo "Build failed, creating fallback..." && \
-     mkdir -p dist && \
-     cat > dist/index.html << 'EOF'
+    npm run build || npx vite build --mode production || npx vite build || { \
+        echo "Build failed, creating fallback..." && \
+        mkdir -p dist && \
+        cat > dist/index.html << 'EOF'
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -109,7 +109,7 @@ RUN cd apps/website && \
 </body>
 </html>
 EOF
-)
+    }
 
 # ===========================================
 # Stage 2: Runtime Environment (运行阶段)
