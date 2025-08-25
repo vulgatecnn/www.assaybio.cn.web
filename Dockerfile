@@ -109,7 +109,7 @@ RUN cd apps/website && \
 </body>
 </html>
 EOF
-))
+)
 
 # ===========================================
 # Stage 2: Runtime Environment (运行阶段)
