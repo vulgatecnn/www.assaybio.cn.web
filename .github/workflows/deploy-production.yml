@@ -1,0 +1,321 @@
+# AssayBio生产环境自动化部署管道
+# 企业级CI/CD工作流程，包含代码质量检查、安全扫描、构建和部署
+
+name: 🚀 Production Deployment
+
+on:
+  push:
+    branches: [main, production]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, ready_for_review]
+
+# 环境变量配置
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: assaybio/website
+  NODE_VERSION: '18'
+  
+# 权限配置
+permissions:
+  contents: read
+  packages: write
+  security-events: write
+  
+jobs:
+  # ==========================================
+  # 代码质量和安全检查阶段
+  # ==========================================
+  quality-gate:
+    name: 🔍 Quality Gate
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    
+    outputs:
+      quality-passed: ${{ steps.quality-check.outputs.passed }}
+      
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # 完整历史记录用于SonarCloud分析
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: 'apps/website/package-lock.json'
+          
+      - name: Install dependencies
+        run: |
+          cd apps/website
+          npm ci --prefer-offline --no-audit
+          
+      - name: TypeScript类型检查
+        run: |
+          cd apps/website
+          npm run type-check
+          
+      - name: ESLint代码检查
+        run: |
+          cd apps/website
+          npm run lint:check
+          
+      - name: Prettier格式检查
+        run: |
+          cd apps/website
+          npm run format:check
+          
+      - name: 单元测试覆盖率
+        run: |
+          cd apps/website
+          npm run test:coverage
+          
+      - name: E2E测试
+        run: |
+          cd apps/website
+          npx playwright install --with-deps
+          npm run e2e
+          
+      - name: 安全依赖检查
+        run: |
+          cd apps/website
+          npm audit --audit-level=moderate
+          
+      - name: SonarCloud代码分析
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: apps/website
+          
+      - name: 质量门禁检查
+        id: quality-check
+        run: |
+          echo "质量检查通过"
+          echo "passed=true" >> $GITHUB_OUTPUT
+
+  # ==========================================
+  # 构建和容器化阶段
+  # ==========================================
+  build-and-push:
+    name: 🏗️ Build & Push
+    runs-on: ubuntu-latest
+    needs: quality-gate
+    if: needs.quality-gate.outputs.quality-passed == 'true'
+    
+    outputs:
+      image-digest: ${{ steps.build.outputs.digest }}
+      image-tag: ${{ steps.meta.outputs.tags }}
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: 设置Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        
+      - name: 登录Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: 提取元数据
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+          labels: |
+            org.opencontainers.image.title=AssayBio Website
+            org.opencontainers.image.description=企业级生物技术网站
+            org.opencontainers.image.vendor=上海安净生物技术有限公司
+            
+      - name: 构建和推送Docker镜像
+        id: build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            BUILD_VERSION=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
+            BUILD_DATE=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }}
+            GIT_COMMIT=${{ github.sha }}
+            
+      - name: 容器安全扫描
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.version }}
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          
+      - name: 上传安全扫描结果
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  # ==========================================
+  # 部署到预生产环境
+  # ==========================================
+  deploy-staging:
+    name: 🎭 Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [quality-gate, build-and-push]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: staging
+    
+    steps:
+      - name: 部署到预生产环境
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.STAGING_HOST }}
+          username: ${{ secrets.STAGING_USER }}
+          key: ${{ secrets.STAGING_SSH_KEY }}
+          script: |
+            cd /opt/assaybio-staging
+            export IMAGE_TAG="${{ needs.build-and-push.outputs.image-tag }}"
+            docker-compose pull
+            docker-compose up -d --force-recreate
+            
+            # 健康检查
+            sleep 30
+            if ! curl -f http://localhost/health; then
+              echo "健康检查失败，回滚部署"
+              docker-compose down
+              exit 1
+            fi
+            
+            echo "预生产环境部署成功"
+            
+      - name: 运行冒烟测试
+        run: |
+          npx playwright test --config=e2e/staging.config.ts
+
+  # ==========================================
+  # 生产环境部署（需要手动批准）
+  # ==========================================
+  deploy-production:
+    name: 🌐 Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [deploy-staging, build-and-push]
+    if: github.ref == 'refs/heads/production' || startsWith(github.ref, 'refs/tags/v')
+    environment: 
+      name: production
+      url: https://assaybio.com
+      
+    steps:
+      - name: 部署前最终检查
+        run: |
+          echo "开始生产环境部署"
+          echo "镜像: ${{ needs.build-and-push.outputs.image-tag }}"
+          echo "提交: ${{ github.sha }}"
+          
+      - name: 蓝绿部署到生产环境
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.PRODUCTION_HOST }}
+          username: ${{ secrets.PRODUCTION_USER }}
+          key: ${{ secrets.PRODUCTION_SSH_KEY }}
+          command_timeout: 10m
+          script: |
+            cd /opt/assaybio-production
+            
+            # 创建部署备份
+            BACKUP_NAME="backup_$(date +%Y%m%d_%H%M%S)"
+            ./scripts/create-backup.sh $BACKUP_NAME
+            
+            # 蓝绿部署
+            export IMAGE_TAG="${{ needs.build-and-push.outputs.image-tag }}"
+            ./scripts/blue-green-deploy.sh
+            
+            # 验证部署
+            sleep 60
+            if ./scripts/health-check.sh; then
+              echo "生产环境部署成功"
+              ./scripts/cleanup-old-versions.sh
+            else
+              echo "健康检查失败，开始回滚"
+              ./scripts/rollback.sh $BACKUP_NAME
+              exit 1
+            fi
+            
+      - name: 部署后验证
+        run: |
+          # 等待DNS传播
+          sleep 30
+          
+          # 验证网站可访问性
+          curl -f https://assaybio.com/health
+          curl -f https://www.assaybio.com/health
+          
+          # SSL证书检查
+          echo | openssl s_client -connect assaybio.com:443 -servername assaybio.com 2>/dev/null | openssl x509 -noout -dates
+          
+      - name: 发送部署通知
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          channel: '#deployments'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow
+        if: always()
+
+  # ==========================================
+  # 部署后监控和验证
+  # ==========================================
+  post-deployment:
+    name: 📊 Post-Deployment Validation
+    runs-on: ubuntu-latest
+    needs: deploy-production
+    if: always() && needs.deploy-production.result == 'success'
+    
+    steps:
+      - name: 性能基线测试
+        run: |
+          npx lighthouse-cli https://assaybio.com \
+            --chrome-flags="--headless --no-sandbox" \
+            --output=json \
+            --output-path=./lighthouse-report.json
+            
+          # 检查性能分数
+          PERFORMANCE_SCORE=$(cat lighthouse-report.json | jq '.categories.performance.score * 100')
+          if (( $(echo "$PERFORMANCE_SCORE < 80" | bc -l) )); then
+            echo "性能分数过低: $PERFORMANCE_SCORE"
+            exit 1
+          fi
+          
+      - name: 安全头检查
+        run: |
+          curl -I https://assaybio.com | grep -i "strict-transport-security\|x-frame-options\|x-content-type-options"
+          
+      - name: 更新监控仪表板
+        run: |
+          curl -X POST "${{ secrets.GRAFANA_WEBHOOK }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "deployment": {
+                "version": "${{ github.ref_name }}",
+                "timestamp": "${{ github.event.head_commit.timestamp }}",
+                "commit": "${{ github.sha }}"
+              }
+            }'
+
+# ==========================================
+# 可重用的工作流组件
+# ==========================================

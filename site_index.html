@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网站下载完成 - www.assaybio.cn</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        h1, h2 { color: #333; }
+        .stats { background: #f4f4f4; padding: 20px; border-radius: 5px; margin: 20px 0; }
+        .file-list { max-height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; }
+        .external-link { color: #e74c3c; }
+        .internal-link { color: #27ae60; }
+        .main-link { font-size: 18px; font-weight: bold; color: #2980b9; }
+    </style>
+</head>
+<body>
+    <h1>网站下载完成 (v3)</h1>
+    <div class="stats">
+        <h2>下载统计</h2>
+        <p><strong>原始网站:</strong> <a href="http://www.assaybio.cn/" target="_blank">http://www.assaybio.cn/</a></p>
+        <p><strong>下载时间:</strong> 3.01 秒</p>
+        <p><strong>访问页面:</strong> 1 个</p>
+        <p><strong>下载文件:</strong> 13 个</p>
+        <p><strong>内部链接:</strong> 9 个</p>
+        <p><strong>外部链接:</strong> 2 个</p>
+        <p><strong>下载失败:</strong> 8 个</p>
+    </div>
+
+    <h2>主页面</h2>
+    <p><a href="index.html" class="main-link">点击这里访问下载的网站主页</a></p>
+
+    <h2>已下载的页面</h2>
+    <div class="file-list">
+        <ul>
+<li><a href="index.html" class="internal-link">http://www.assaybio.cn/</a></li>\n
+        </ul>
+    </div>
+
+    <h2>外部链接 (未下载)</h2>
+    <div class="file-list">
+        <ul>
+<li><a href="http://beian.miit.gov.cn" target="_blank" class="external-link">http://beian.miit.gov.cn</a></li>\n<li><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31011202012026" target="_blank" class="external-link">http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31011202012026</a></li>\n
+        </ul>
+    </div>
+
+    <h2>使用说明</h2>
+    <p><strong>v3版本改进：</strong></p>
+    <ul>
+        <li>正确处理带参数的aspx页面，每个不同参数生成不同的HTML文件</li>
+        <li>自动下载CSS中引用的背景图片</li>
+        <li>服务器端文件(.aspx, .php等)自动转换为.html文件</li>
+        <li>确保所有链接在本地正常工作</li>
+    </ul>
+</body>
+</html>
