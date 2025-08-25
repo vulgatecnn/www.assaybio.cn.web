@@ -1,2 +1,0 @@
-微信二维码占位符文件
-请将从 http://www.assaybio.cn/Upload/editor/image/20140626/20140626141120_5271.jpg 下载的二维码图片命名为 wechat-qr.jpg 并放置在此目录中。
