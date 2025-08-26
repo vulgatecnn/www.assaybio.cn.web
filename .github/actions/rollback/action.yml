@@ -1,0 +1,129 @@
+name: 'Rollback Deployment'
+description: 'Rollback to previous stable version'
+
+inputs:
+  server-host:
+    description: 'Target server hostname or IP'
+    required: true
+  server-user:
+    description: 'SSH username for target server'
+    required: true
+  server-key:
+    description: 'SSH private key for authentication'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 🔧 Setup SSH
+      shell: bash
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ inputs.server-key }}" > ~/.ssh/deploy_key
+        chmod 600 ~/.ssh/deploy_key
+        ssh-keyscan -H ${{ inputs.server-host }} >> ~/.ssh/known_hosts
+
+    - name: ⏪ Execute Rollback
+      shell: bash
+      run: |
+        ssh -i ~/.ssh/deploy_key ${{ inputs.server-user }}@${{ inputs.server-host }} << 'EOF'
+          set -e
+          
+          echo "🔍 Starting rollback process..."
+          
+          # 检查是否有备份环境可用
+          BACKUP_AVAILABLE=false
+          if docker ps -a --format "table {{.Names}}" | grep -q assaybio-backup; then
+            BACKUP_AVAILABLE=true
+            echo "✅ Backup environment found"
+          fi
+          
+          if [ "$BACKUP_AVAILABLE" = true ]; then
+            # 使用备份环境进行快速回滚
+            echo "🔄 Rolling back using backup environment..."
+            
+            # 停止当前环境
+            docker stop assaybio-blue assaybio-green || true
+            
+            # 启动备份环境
+            docker start assaybio-backup
+            
+            # 更新nginx配置指向备份环境
+            sed 's/server localhost:808[01]/server localhost:8082/' /etc/nginx/sites-available/assaybio > /etc/nginx/sites-available/assaybio.rollback
+            mv /etc/nginx/sites-available/assaybio.rollback /etc/nginx/sites-available/assaybio
+            
+            # 重新载入nginx
+            nginx -t && systemctl reload nginx
+            
+            echo "✅ Rollback completed using backup environment"
+          else
+            # 使用数据库回滚到上一个稳定版本
+            echo "📋 Retrieving last stable deployment..."
+            
+            # 从部署日志中获取上一个稳定版本
+            LAST_STABLE_TAG=$(docker images --format "table {{.Repository}}:{{.Tag}}" | grep ghcr.io/assaybio | head -2 | tail -1)
+            
+            if [ ! -z "$LAST_STABLE_TAG" ]; then
+              echo "🔄 Rolling back to: $LAST_STABLE_TAG"
+              
+              # 停止当前容器
+              docker stop assaybio-blue assaybio-green || true
+              docker rm assaybio-blue assaybio-green || true
+              
+              # 启动稳定版本
+              docker run -d \
+                --name assaybio-rollback \
+                --network assaybio-network \
+                -p 8080:80 \
+                -e ENVIRONMENT=production \
+                --restart unless-stopped \
+                $LAST_STABLE_TAG
+              
+              # 更新nginx配置
+              sed 's/server localhost:808[01]/server localhost:8080/' /etc/nginx/sites-available/assaybio > /etc/nginx/sites-available/assaybio.rollback
+              mv /etc/nginx/sites-available/assaybio.rollback /etc/nginx/sites-available/assaybio
+              
+              # 重新载入nginx
+              nginx -t && systemctl reload nginx
+              
+              echo "✅ Rollback completed to version: $LAST_STABLE_TAG"
+            else
+              echo "❌ No stable version found for rollback"
+              exit 1
+            fi
+          fi
+          
+          # 验证回滚是否成功
+          sleep 10
+          if curl -f http://localhost/health > /dev/null 2>&1; then
+            echo "✅ Rollback health check passed"
+          else
+            echo "❌ Rollback health check failed"
+            exit 1
+          fi
+        EOF
+
+    - name: 📊 Verify Rollback
+      shell: bash
+      run: |
+        # 验证网站是否可访问
+        for i in {1..5}; do
+          response=$(curl -s -o /dev/null -w "%{http_code}" http://${{ inputs.server-host }})
+          if [ $response -eq 200 ]; then
+            echo "✅ Website is accessible after rollback"
+            break
+          fi
+          echo "⏳ Verification attempt $i/5..."
+          sleep 5
+          
+          if [ $i -eq 5 ]; then
+            echo "❌ Website verification failed after rollback"
+            exit 1
+          fi
+        done
+
+    - name: 🧹 Cleanup SSH
+      shell: bash
+      if: always()
+      run: |
+        rm -f ~/.ssh/deploy_key

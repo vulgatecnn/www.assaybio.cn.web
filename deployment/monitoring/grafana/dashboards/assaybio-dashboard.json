@@ -1,0 +1,240 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "AssayBio Website Monitoring",
+    "tags": ["assaybio", "website", "production"],
+    "timezone": "Asia/Shanghai",
+    "refresh": "30s",
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "panels": [
+      {
+        "id": 1,
+        "title": "Website Status",
+        "type": "stat",
+        "gridPos": {"h": 8, "w": 6, "x": 0, "y": 0},
+        "targets": [{
+          "expr": "up{job=\"assaybio-health\"}",
+          "legendFormat": "{{instance}}"
+        }],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "steps": [
+                {"color": "red", "value": 0},
+                {"color": "green", "value": 1}
+              ]
+            },
+            "mappings": [
+              {"options": {"0": {"text": "Down"}}, "type": "value"},
+              {"options": {"1": {"text": "Up"}}, "type": "value"}
+            ]
+          }
+        },
+        "options": {
+          "colorMode": "background",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "values": false,
+            "fields": "",
+            "calcs": ["lastNotNull"]
+          }
+        }
+      },
+      {
+        "id": 2,
+        "title": "HTTP Requests per Second",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 18, "x": 6, "y": 0},
+        "targets": [{
+          "expr": "rate(nginx_http_requests_total[5m])",
+          "legendFormat": "{{instance}} - {{status}}"
+        }],
+        "yAxes": [
+          {"label": "Requests/sec", "min": 0},
+          {"show": false}
+        ],
+        "xAxes": [{"mode": "time"}]
+      },
+      {
+        "id": 3,
+        "title": "Response Time (95th percentile)",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+        "targets": [{
+          "expr": "histogram_quantile(0.95, rate(nginx_http_request_duration_seconds_bucket[5m]))",
+          "legendFormat": "95th percentile"
+        }],
+        "yAxes": [
+          {"label": "Seconds", "min": 0},
+          {"show": false}
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Active Connections",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+        "targets": [{
+          "expr": "nginx_connections_active",
+          "legendFormat": "{{instance}} - Active"
+        }],
+        "yAxes": [
+          {"label": "Connections", "min": 0},
+          {"show": false}
+        ]
+      },
+      {
+        "id": 5,
+        "title": "System CPU Usage",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 8, "x": 0, "y": 16},
+        "targets": [{
+          "expr": "100 - (avg by(instance) (irate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)",
+          "legendFormat": "{{instance}} CPU"
+        }],
+        "yAxes": [
+          {"label": "Percent", "min": 0, "max": 100},
+          {"show": false}
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Memory Usage",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 8, "x": 8, "y": 16},
+        "targets": [{
+          "expr": "(1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100",
+          "legendFormat": "{{instance}} Memory"
+        }],
+        "yAxes": [
+          {"label": "Percent", "min": 0, "max": 100},
+          {"show": false}
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Disk Usage",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 8, "x": 16, "y": 16},
+        "targets": [{
+          "expr": "100 - ((node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes)",
+          "legendFormat": "{{instance}} - {{mountpoint}}"
+        }],
+        "yAxes": [
+          {"label": "Percent", "min": 0, "max": 100},
+          {"show": false}
+        ]
+      },
+      {
+        "id": 8,
+        "title": "HTTP Error Rate",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 24},
+        "targets": [{
+          "expr": "rate(nginx_http_requests_total{status=~\"4..|5..\"}[5m]) / rate(nginx_http_requests_total[5m]) * 100",
+          "legendFormat": "Error Rate %"
+        }],
+        "yAxes": [
+          {"label": "Percent", "min": 0},
+          {"show": false}
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Container Status",
+        "type": "table",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 24},
+        "targets": [{
+          "expr": "up",
+          "format": "table",
+          "instant": true
+        }],
+        "transformations": [{
+          "id": "organize",
+          "options": {
+            "excludeByName": {"Time": true, "__name__": true},
+            "indexByName": {},
+            "renameByName": {
+              "instance": "Instance",
+              "job": "Job",
+              "Value": "Status"
+            }
+          }
+        }]
+      },
+      {
+        "id": 10,
+        "title": "SSL Certificate Expiry",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 6, "x": 0, "y": 32},
+        "targets": [{
+          "expr": "(probe_ssl_earliest_cert_expiry - time()) / 86400",
+          "legendFormat": "Days until expiry"
+        }],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "days",
+            "thresholds": {
+              "steps": [
+                {"color": "red", "value": 0},
+                {"color": "yellow", "value": 30},
+                {"color": "green", "value": 60}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 11,
+        "title": "Request Volume by Status Code",
+        "type": "piechart",
+        "gridPos": {"h": 8, "w": 6, "x": 6, "y": 32},
+        "targets": [{
+          "expr": "sum by(status) (rate(nginx_http_requests_total[5m]))",
+          "legendFormat": "{{status}}"
+        }]
+      },
+      {
+        "id": 12,
+        "title": "Container Resource Usage",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 32},
+        "targets": [
+          {
+            "expr": "rate(container_cpu_usage_seconds_total[5m]) * 100",
+            "legendFormat": "{{name}} CPU"
+          },
+          {
+            "expr": "(container_memory_usage_bytes / container_spec_memory_limit_bytes) * 100",
+            "legendFormat": "{{name}} Memory"
+          }
+        ],
+        "yAxes": [
+          {"label": "Percent", "min": 0, "max": 100},
+          {"show": false}
+        ]
+      }
+    ],
+    "annotations": {
+      "list": [{
+        "builtIn": 1,
+        "datasource": "Prometheus",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }]
+    },
+    "links": [],
+    "templating": {
+      "list": []
+    }
+  }
+}

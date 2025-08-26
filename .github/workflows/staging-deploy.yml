@@ -1,0 +1,83 @@
+name: Staging Deployment
+
+on:
+  push:
+    branches: [ develop, 'release/**' ]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '18'
+  STAGING_SERVER: 'staging.assaybio.local'
+  DEPLOY_PATH: '/var/www/staging'
+  BACKUP_PATH: '/var/backups/staging'
+
+jobs:
+  deploy-staging:
+    runs-on: ubuntu-latest
+    environment: 
+      name: staging
+      url: http://staging.assaybio.local
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          cd apps/website
+          npm ci
+
+      - name: Build for staging
+        run: |
+          cd apps/website
+          NODE_ENV=staging npm run build
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.STAGING_SSH_KEY }}
+
+      - name: Deploy to staging
+        run: |
+          # Create deployment package
+          tar -czf website-staging-$(date +%Y%m%d-%H%M%S).tar.gz \
+            apps/website/dist/ index.html temp.json css/ js/ images/ icons/
+          
+          # Upload and deploy
+          scp website-staging-*.tar.gz root@${{ env.STAGING_SERVER }}:/tmp/
+          
+          ssh root@${{ env.STAGING_SERVER }} "
+            # Backup current version
+            if [ -d ${{ env.DEPLOY_PATH }} ]; then
+              tar -czf ${{ env.BACKUP_PATH }}/staging-backup-\$(date +%Y%m%d-%H%M%S).tar.gz -C ${{ env.DEPLOY_PATH }} .
+            fi
+            
+            # Deploy new version
+            mkdir -p ${{ env.DEPLOY_PATH }}
+            rm -rf ${{ env.DEPLOY_PATH }}/*
+            cd /tmp && tar -xzf website-staging-*.tar.gz -C ${{ env.DEPLOY_PATH }}/
+            
+            # Set permissions
+            chown -R www-data:www-data ${{ env.DEPLOY_PATH }}/
+            chmod -R 755 ${{ env.DEPLOY_PATH }}/
+            
+            # Restart web server
+            systemctl reload nginx
+            rm -f /tmp/website-staging-*.tar.gz
+          "
+
+      - name: Health check
+        run: |
+          sleep 10
+          response=$(curl -s -o /dev/null -w "%{http_code}" http://${{ env.STAGING_SERVER }}/)
+          if [[ $response -ge 200 && $response -lt 400 ]]; then
+            echo "✅ Staging deployment successful"
+          else
+            echo "❌ Staging deployment failed"
+            exit 1
+          fi

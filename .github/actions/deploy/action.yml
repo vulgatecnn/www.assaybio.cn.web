@@ -1,0 +1,72 @@
+name: 'Deploy to Server'
+description: 'Deploy website to target server using Docker'
+
+inputs:
+  environment:
+    description: 'Target environment (development/staging/production)'
+    required: true
+  server-host:
+    description: 'Target server hostname or IP'
+    required: true
+  server-user:
+    description: 'SSH username for target server'
+    required: true
+  server-key:
+    description: 'SSH private key for authentication'
+    required: true
+  image-tag:
+    description: 'Docker image tag to deploy'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 🔧 Setup SSH
+      shell: bash
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ inputs.server-key }}" > ~/.ssh/deploy_key
+        chmod 600 ~/.ssh/deploy_key
+        ssh-keyscan -H ${{ inputs.server-host }} >> ~/.ssh/known_hosts
+
+    - name: 📋 Prepare Environment Config
+      shell: bash
+      run: |
+        cp deployment/environments/${{ inputs.environment }}.env .env
+
+    - name: 📤 Copy Deployment Files
+      shell: bash
+      run: |
+        scp -i ~/.ssh/deploy_key -r deployment/ ${{ inputs.server-user }}@${{ inputs.server-host }}:/tmp/assaybio-deploy/
+        scp -i ~/.ssh/deploy_key .env ${{ inputs.server-user }}@${{ inputs.server-host }}:/tmp/assaybio-deploy/
+
+    - name: 🚀 Execute Deployment
+      shell: bash
+      run: |
+        ssh -i ~/.ssh/deploy_key ${{ inputs.server-user }}@${{ inputs.server-host }} << 'EOF'
+          set -e
+          
+          # 设置环境变量
+          export IMAGE_TAG="${{ inputs.image-tag }}"
+          export ENVIRONMENT="${{ inputs.environment }}"
+          
+          # 进入部署目录
+          cd /tmp/assaybio-deploy
+          
+          # 拉取最新镜像
+          docker pull ${{ inputs.image-tag }}
+          
+          # 执行部署脚本
+          chmod +x scripts/deploy.sh
+          ./scripts/deploy.sh
+          
+          # 清理临时文件
+          cd /
+          rm -rf /tmp/assaybio-deploy
+        EOF
+
+    - name: 🧹 Cleanup SSH
+      shell: bash
+      if: always()
+      run: |
+        rm -f ~/.ssh/deploy_key

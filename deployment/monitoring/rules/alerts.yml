@@ -1,0 +1,268 @@
+# AssayBio 告警规则配置
+# 企业级监控告警策略
+
+groups:
+  # ====================
+  # 系统资源告警
+  # ====================
+  - name: system-resources
+    rules:
+      # 高CPU使用率告警
+      - alert: HighCPUUsage
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 5m
+        labels:
+          severity: warning
+          team: devops
+        annotations:
+          summary: "High CPU usage detected"
+          description: "CPU usage is above 80% on {{ $labels.instance }} for more than 5 minutes. Current usage: {{ $value }}%"
+
+      # 高内存使用率告警
+      - alert: HighMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 85
+        for: 5m
+        labels:
+          severity: warning
+          team: devops
+        annotations:
+          summary: "High memory usage detected"
+          description: "Memory usage is above 85% on {{ $labels.instance }} for more than 5 minutes. Current usage: {{ $value }}%"
+
+      # 磁盘空间不足告警
+      - alert: LowDiskSpace
+        expr: 100 - ((node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes) > 90
+        for: 5m
+        labels:
+          severity: critical
+          team: devops
+        annotations:
+          summary: "Low disk space"
+          description: "Disk space usage is above 90% on {{ $labels.instance }} mount {{ $labels.mountpoint }}. Current usage: {{ $value }}%"
+
+      # 高磁盘I/O告警
+      - alert: HighDiskIO
+        expr: irate(node_disk_io_time_seconds_total[5m]) > 0.8
+        for: 10m
+        labels:
+          severity: warning
+          team: devops
+        annotations:
+          summary: "High disk I/O"
+          description: "Disk I/O utilization is high on {{ $labels.instance }} device {{ $labels.device }} for more than 10 minutes."
+
+  # ====================
+  # 应用服务告警
+  # ====================
+  - name: application-services
+    rules:
+      # 网站不可访问告警
+      - alert: WebsiteDown
+        expr: up{job="assaybio-health"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          team: devops
+        annotations:
+          summary: "Website is down"
+          description: "AssayBio website {{ $labels.instance }} is down for more than 1 minute."
+
+      # HTTP响应时间过长告警
+      - alert: HighResponseTime
+        expr: histogram_quantile(0.95, rate(nginx_http_request_duration_seconds_bucket[5m])) > 2
+        for: 5m
+        labels:
+          severity: warning
+          team: devops
+        annotations:
+          summary: "High HTTP response time"
+          description: "95th percentile HTTP response time is above 2 seconds on {{ $labels.instance }} for more than 5 minutes."
+
+      # HTTP错误率过高告警
+      - alert: HighErrorRate
+        expr: rate(nginx_http_requests_total{status=~"5.."}[5m]) / rate(nginx_http_requests_total[5m]) * 100 > 5
+        for: 3m
+        labels:
+          severity: warning
+          team: devops
+        annotations:
+          summary: "High HTTP error rate"
+          description: "HTTP 5xx error rate is above 5% on {{ $labels.instance }} for more than 3 minutes. Current rate: {{ $value }}%"
+
+      # 连接数过多告警
+      - alert: TooManyConnections
+        expr: nginx_connections_active > 1000
+        for: 5m
+        labels:
+          severity: warning
+          team: devops
+        annotations:
+          summary: "Too many active connections"
+          description: "Active connections count is above 1000 on {{ $labels.instance }} for more than 5 minutes. Current count: {{ $value }}"
+
+  # ====================
+  # 容器监控告警
+  # ====================
+  - name: container-monitoring
+    rules:
+      # 容器重启告警
+      - alert: ContainerRestarted
+        expr: increase(container_start_time_seconds[1h]) > 0
+        for: 0m
+        labels:
+          severity: warning
+          team: devops
+        annotations:
+          summary: "Container restarted"
+          description: "Container {{ $labels.name }} has been restarted."
+
+      # 容器CPU使用率过高告警
+      - alert: ContainerHighCPU
+        expr: (rate(container_cpu_usage_seconds_total[5m]) * 100) > 80
+        for: 5m
+        labels:
+          severity: warning
+          team: devops
+        annotations:
+          summary: "Container high CPU usage"
+          description: "Container {{ $labels.name }} CPU usage is above 80% for more than 5 minutes. Current usage: {{ $value }}%"
+
+      # 容器内存使用率过高告警
+      - alert: ContainerHighMemory
+        expr: (container_memory_usage_bytes / container_spec_memory_limit_bytes) * 100 > 90
+        for: 5m
+        labels:
+          severity: critical
+          team: devops
+        annotations:
+          summary: "Container high memory usage"
+          description: "Container {{ $labels.name }} memory usage is above 90% for more than 5 minutes. Current usage: {{ $value }}%"
+
+      # 容器停止告警
+      - alert: ContainerStopped
+        expr: up{job="cadvisor"} == 0
+        for: 30s
+        labels:
+          severity: critical
+          team: devops
+        annotations:
+          summary: "Container monitoring stopped"
+          description: "cAdvisor on {{ $labels.instance }} is not responding."
+
+  # ====================
+  # SSL证书告警
+  # ====================
+  - name: ssl-certificates
+    rules:
+      # SSL证书即将过期告警
+      - alert: SSLCertificateExpiringSoon
+        expr: (probe_ssl_earliest_cert_expiry - time()) / 86400 < 30
+        for: 1h
+        labels:
+          severity: warning
+          team: devops
+        annotations:
+          summary: "SSL certificate expiring soon"
+          description: "SSL certificate for {{ $labels.instance }} will expire in {{ $value }} days."
+
+      # SSL证书已过期告警
+      - alert: SSLCertificateExpired
+        expr: probe_ssl_earliest_cert_expiry - time() <= 0
+        for: 1m
+        labels:
+          severity: critical
+          team: devops
+        annotations:
+          summary: "SSL certificate expired"
+          description: "SSL certificate for {{ $labels.instance }} has expired."
+
+  # ====================
+  # 业务指标告警
+  # ====================
+  - name: business-metrics
+    rules:
+      # 访问量异常低告警
+      - alert: LowTraffic
+        expr: rate(nginx_http_requests_total[1h]) < 1
+        for: 2h
+        labels:
+          severity: warning
+          team: business
+        annotations:
+          summary: "Unusually low traffic"
+          description: "Website traffic is unusually low on {{ $labels.instance }}. Current rate: {{ $value }} requests/hour"
+
+      # 访问量异常高告警
+      - alert: HighTraffic
+        expr: rate(nginx_http_requests_total[5m]) > 1000
+        for: 10m
+        labels:
+          severity: warning
+          team: devops
+        annotations:
+          summary: "High traffic detected"
+          description: "Website traffic is unusually high on {{ $labels.instance }}. Current rate: {{ $value }} requests/minute"
+
+      # 404错误率过高告警
+      - alert: High404Rate
+        expr: rate(nginx_http_requests_total{status="404"}[5m]) / rate(nginx_http_requests_total[5m]) * 100 > 10
+        for: 5m
+        labels:
+          severity: warning
+          team: content
+        annotations:
+          summary: "High 404 error rate"
+          description: "404 error rate is above 10% on {{ $labels.instance }} for more than 5 minutes. Current rate: {{ $value }}%"
+
+  # ====================
+  # 数据库告警 (如果适用)
+  # ====================
+  # - name: database-alerts
+  #   rules:
+  #     - alert: DatabaseDown
+  #       expr: up{job="postgres"} == 0
+  #       for: 1m
+  #       labels:
+  #         severity: critical
+  #         team: devops
+  #       annotations:
+  #         summary: "Database is down"
+  #         description: "PostgreSQL database is not responding."
+
+  # ====================
+  # Redis缓存告警
+  # ====================
+  - name: redis-alerts
+    rules:
+      # Redis服务不可用告警
+      - alert: RedisDown
+        expr: up{job="redis"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          team: devops
+        annotations:
+          summary: "Redis is down"
+          description: "Redis cache server is not responding."
+
+      # Redis内存使用率过高告警
+      - alert: RedisHighMemory
+        expr: (redis_memory_used_bytes / redis_memory_max_bytes) * 100 > 90
+        for: 5m
+        labels:
+          severity: warning
+          team: devops
+        annotations:
+          summary: "Redis high memory usage"
+          description: "Redis memory usage is above 90% for more than 5 minutes. Current usage: {{ $value }}%"
+
+      # Redis连接数过多告警
+      - alert: RedisTooManyConnections
+        expr: redis_connected_clients > 1000
+        for: 5m
+        labels:
+          severity: warning
+          team: devops
+        annotations:
+          summary: "Too many Redis connections"
+          description: "Redis has too many connections. Current count: {{ $value }}"

@@ -1,0 +1,90 @@
+# 多环境部署配置
+environments:
+  development:
+    name: "开发环境"
+    server: "dev.assaybio.local"
+    deploy_path: "/var/www/dev"
+    backup_path: "/var/backups/dev"
+    branch: "develop"
+    auto_deploy: true
+    health_check_timeout: 30
+    rollback_enabled: true
+    
+  staging:
+    name: "测试环境"  
+    server: "staging.assaybio.local"
+    deploy_path: "/var/www/staging"
+    backup_path: "/var/backups/staging"
+    branch: "release/*"
+    auto_deploy: false  # 需要手动审批
+    health_check_timeout: 60
+    rollback_enabled: true
+    require_approval: true
+    
+  production:
+    name: "生产环境"
+    server: "192.3.11.106"
+    port: "6500"
+    deploy_path: "/var/www/html"
+    backup_path: "/var/backups"
+    branch: "main"
+    auto_deploy: false  # 需要手动审批
+    health_check_timeout: 120
+    rollback_enabled: true
+    require_approval: true
+    maintenance_window: "02:00-04:00"  # 凌晨2-4点维护窗口
+
+# 部署策略配置
+deployment_strategies:
+  blue_green:
+    enabled: false  # 当前为单服务器，不启用
+    switch_strategy: "instant"
+    
+  rolling:
+    enabled: false  # 当前为单服务器，不启用
+    batch_size: 1
+    
+  recreate:
+    enabled: true   # 当前使用重建策略
+    downtime_acceptable: true
+
+# 健康检查配置
+health_checks:
+  http:
+    enabled: true
+    endpoint: "/"
+    expected_status: [200, 308]  # 接受200或308(重定向)
+    timeout: 30
+    
+  service:
+    enabled: true
+    services: ["nginx"]
+    
+  disk_space:
+    enabled: true
+    threshold: 80  # 磁盘使用率超过80%时告警
+
+# 回滚配置
+rollback:
+  automatic: true  # 部署失败时自动回滚
+  backup_retention: 7  # 保留7天的备份
+  max_rollback_attempts: 3
+
+# 通知配置
+notifications:
+  slack:
+    enabled: true
+    webhook_secret: "SLACK_WEBHOOK"
+    channels:
+      success: "#deployments"
+      failure: "#alerts"
+      
+  email:
+    enabled: false
+    recipients: []
+    
+# 安全配置
+security:
+  secret_scanning: true
+  vulnerability_check: true
+  dependency_audit: true

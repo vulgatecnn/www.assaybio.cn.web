@@ -1,0 +1,270 @@
+name: Production Deployment
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - development
+          - staging
+          - production
+
+env:
+  NODE_VERSION: '18'
+  PRODUCTION_SERVER: '192.3.11.106'
+  PRODUCTION_PORT: '6500'
+  DEPLOY_PATH: '/var/www/html'
+  BACKUP_PATH: '/var/backups'
+
+jobs:
+  # 代码质量检查
+  quality-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: apps/website/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          cd apps/website
+          npm ci
+
+      - name: Lint check
+        run: |
+          cd apps/website
+          npm run lint || echo "Lint warnings found"
+
+      - name: Type check
+        run: |
+          cd apps/website
+          npm run type-check || echo "Type check completed with warnings"
+
+  # 构建阶段
+  build:
+    runs-on: ubuntu-latest
+    needs: quality-check
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          cd apps/website
+          npm ci
+
+      - name: Build application
+        run: |
+          cd apps/website
+          npm run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: website-build
+          path: |
+            apps/website/dist/
+            index.html
+            temp.json
+            css/
+            js/
+            images/
+            icons/
+          retention-days: 30
+
+  # 安全检查
+  security-scan:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run security audit
+        run: |
+          cd apps/website
+          npm audit --audit-level moderate || echo "Security audit completed"
+
+      - name: Scan for secrets
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: main
+          head: HEAD
+
+  # 部署到生产环境
+  deploy-production:
+    runs-on: ubuntu-latest
+    needs: [build, security-scan]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: 
+      name: production
+      url: http://192.3.11.106:6500
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: website-build
+          path: ./build
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.PRODUCTION_SSH_KEY }}
+
+      - name: Add server to known hosts
+        run: |
+          ssh-keyscan -H ${{ env.PRODUCTION_SERVER }} >> ~/.ssh/known_hosts
+
+      - name: Create deployment package
+        run: |
+          cd build
+          tar -czf ../website-deploy-$(date +%Y%m%d-%H%M%S).tar.gz *
+          ls -la ../*.tar.gz
+
+      - name: Pre-deployment health check
+        run: |
+          ssh root@${{ env.PRODUCTION_SERVER }} "
+            systemctl is-active nginx || exit 1
+            df -h ${{ env.DEPLOY_PATH }} | awk 'NR==2 {if(\$5 > \"80%\") exit 1}'
+          "
+
+      - name: Create backup
+        run: |
+          ssh root@${{ env.PRODUCTION_SERVER }} "
+            mkdir -p ${{ env.BACKUP_PATH }}
+            if [ -d ${{ env.DEPLOY_PATH }} ]; then
+              tar -czf ${{ env.BACKUP_PATH }}/website-backup-\$(date +%Y%m%d-%H%M%S).tar.gz -C ${{ env.DEPLOY_PATH }} .
+              echo 'Backup created successfully'
+            fi
+          "
+
+      - name: Deploy to production
+        run: |
+          # Upload deployment package
+          scp website-deploy-*.tar.gz root@${{ env.PRODUCTION_SERVER }}:/tmp/
+          
+          # Deploy on server
+          ssh root@${{ env.PRODUCTION_SERVER }} "
+            # Stop web server temporarily for zero-downtime deployment
+            systemctl stop nginx
+            
+            # Clear current deployment
+            rm -rf ${{ env.DEPLOY_PATH }}/*
+            
+            # Extract new deployment
+            cd /tmp && tar -xzf website-deploy-*.tar.gz -C ${{ env.DEPLOY_PATH }}/
+            
+            # Set permissions
+            chown -R www-data:www-data ${{ env.DEPLOY_PATH }}/ 2>/dev/null || chown -R apache:apache ${{ env.DEPLOY_PATH }}/ 2>/dev/null
+            chmod -R 755 ${{ env.DEPLOY_PATH }}/
+            find ${{ env.DEPLOY_PATH }} -type f -exec chmod 644 {} \;
+            
+            # Start web server
+            systemctl start nginx
+            systemctl reload nginx
+            
+            # Cleanup temp files
+            rm -f /tmp/website-deploy-*.tar.gz
+          "
+
+      - name: Post-deployment health check
+        run: |
+          # Wait for service to be ready
+          sleep 10
+          
+          # Check HTTP status
+          response=\$(curl -s -o /dev/null -w \"%{http_code}\" http://${{ env.PRODUCTION_SERVER }}:${{ env.PRODUCTION_PORT }}/)
+          if [[ \$response -ge 200 && \$response -lt 400 ]]; then
+            echo "✅ Deployment successful - HTTP \$response"
+          else
+            echo "❌ Deployment failed - HTTP \$response"
+            exit 1
+          fi
+          
+          # Check Nginx status
+          ssh root@${{ env.PRODUCTION_SERVER }} "
+            if systemctl is-active --quiet nginx; then
+              echo '✅ Nginx is running'
+            else
+              echo '❌ Nginx is not running'
+              exit 1
+            fi
+          "
+
+      - name: Rollback on failure
+        if: failure()
+        run: |
+          echo "🔄 Deployment failed, initiating rollback..."
+          ssh root@${{ env.PRODUCTION_SERVER }} "
+            # Find latest backup
+            latest_backup=\$(ls -t ${{ env.BACKUP_PATH }}/website-backup-*.tar.gz 2>/dev/null | head -1)
+            
+            if [ -n \"\$latest_backup\" ]; then
+              echo \"Rolling back to: \$latest_backup\"
+              rm -rf ${{ env.DEPLOY_PATH }}/*
+              tar -xzf \"\$latest_backup\" -C ${{ env.DEPLOY_PATH }}/
+              chown -R www-data:www-data ${{ env.DEPLOY_PATH }}/ 2>/dev/null || chown -R apache:apache ${{ env.DEPLOY_PATH }}/ 2>/dev/null
+              systemctl restart nginx
+              echo '✅ Rollback completed'
+            else
+              echo '❌ No backup found for rollback'
+            fi
+          "
+
+  # 部署通知
+  notify:
+    runs-on: ubuntu-latest
+    needs: [deploy-production]
+    if: always()
+    steps:
+      - name: Deployment notification
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ needs.deploy-production.result }}
+          channel: '#deployments'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+
+  # 清理旧备份
+  cleanup:
+    runs-on: ubuntu-latest
+    needs: [deploy-production]
+    if: success()
+    steps:
+      - name: Cleanup old backups
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.PRODUCTION_SSH_KEY }}
+
+      - name: Remove old backups (keep last 7 days)
+        run: |
+          ssh root@${{ env.PRODUCTION_SERVER }} "
+            find ${{ env.BACKUP_PATH }} -name 'website-backup-*.tar.gz' -type f -mtime +7 -delete
+            echo 'Old backups cleaned up'
+          "

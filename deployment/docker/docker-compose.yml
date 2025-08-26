@@ -1,0 +1,347 @@
+# AssayBio 生产环境 Docker Compose 配置
+# 企业级高可用部署栈
+
+version: '3.8'
+
+networks:
+  assaybio-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16
+
+  monitoring:
+    driver: bridge
+    internal: true
+
+volumes:
+  nginx-logs:
+    driver: local
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
+  redis-data:
+    driver: local
+  backup-data:
+    driver: local
+
+services:
+  # ====================
+  # 主应用服务 (蓝绿部署)
+  # ====================
+  
+  # 蓝环境
+  assaybio-blue:
+    build:
+      context: ../..
+      dockerfile: deployment/docker/Dockerfile
+      target: production
+    container_name: assaybio-blue
+    restart: unless-stopped
+    networks:
+      - assaybio-network
+    ports:
+      - "8080:80"
+    environment:
+      - NODE_ENV=production
+      - ENVIRONMENT=blue
+    volumes:
+      - nginx-logs:/var/log/nginx
+      - ../backup:/backup:ro
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.assaybio-blue.rule=Host(`blue.assaybio.com`)"
+      - "com.assaybio.service=website"
+      - "com.assaybio.environment=blue"
+
+  # 绿环境
+  assaybio-green:
+    build:
+      context: ../..
+      dockerfile: deployment/docker/Dockerfile
+      target: production
+    container_name: assaybio-green
+    restart: unless-stopped
+    networks:
+      - assaybio-network
+    ports:
+      - "8081:80"
+    environment:
+      - NODE_ENV=production
+      - ENVIRONMENT=green
+    volumes:
+      - nginx-logs:/var/log/nginx
+      - ../backup:/backup:ro
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.assaybio-green.rule=Host(`green.assaybio.com`)"
+      - "com.assaybio.service=website"
+      - "com.assaybio.environment=green"
+
+  # 备份环境（用于快速回滚）
+  assaybio-backup:
+    build:
+      context: ../..
+      dockerfile: deployment/docker/Dockerfile
+      target: production
+    container_name: assaybio-backup
+    restart: "no"
+    networks:
+      - assaybio-network
+    ports:
+      - "8082:80"
+    environment:
+      - NODE_ENV=production
+      - ENVIRONMENT=backup
+    volumes:
+      - nginx-logs:/var/log/nginx
+    labels:
+      - "com.assaybio.service=website"
+      - "com.assaybio.environment=backup"
+
+  # ====================
+  # 负载均衡和反向代理
+  # ====================
+  nginx-lb:
+    image: nginx:1.24-alpine
+    container_name: assaybio-nginx-lb
+    restart: unless-stopped
+    networks:
+      - assaybio-network
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx-lb.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/upstream.conf:/etc/nginx/conf.d/upstream.conf:ro
+      - ../ssl:/etc/nginx/ssl:ro
+      - nginx-logs:/var/log/nginx
+    depends_on:
+      - assaybio-blue
+      - assaybio-green
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    labels:
+      - "com.assaybio.service=load-balancer"
+
+  # ====================
+  # 缓存服务
+  # ====================
+  redis:
+    image: redis:7-alpine
+    container_name: assaybio-redis
+    restart: unless-stopped
+    networks:
+      - assaybio-network
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+      - ./redis/redis.conf:/etc/redis/redis.conf:ro
+    command: redis-server /etc/redis/redis.conf
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-secure_redis_password}
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    labels:
+      - "com.assaybio.service=cache"
+
+  # ====================
+  # 监控和日志服务
+  # ====================
+  
+  # Prometheus 监控
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: assaybio-prometheus
+    restart: unless-stopped
+    networks:
+      - monitoring
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    labels:
+      - "com.assaybio.service=monitoring"
+
+  # Grafana 仪表盘
+  grafana:
+    image: grafana/grafana:latest
+    container_name: assaybio-grafana
+    restart: unless-stopped
+    networks:
+      - monitoring
+      - assaybio-network
+    ports:
+      - "3001:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-secure_grafana_password}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+    labels:
+      - "com.assaybio.service=monitoring"
+
+  # Node Exporter (系统监控)
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: assaybio-node-exporter
+    restart: unless-stopped
+    networks:
+      - monitoring
+    ports:
+      - "9100:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    labels:
+      - "com.assaybio.service=monitoring"
+
+  # cAdvisor (容器监控)
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: assaybio-cadvisor
+    restart: unless-stopped
+    networks:
+      - monitoring
+    ports:
+      - "8080:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    privileged: true
+    devices:
+      - /dev/kmsg:/dev/kmsg
+    labels:
+      - "com.assaybio.service=monitoring"
+
+  # ====================
+  # 日志聚合
+  # ====================
+  fluentd:
+    image: fluent/fluentd:v1.16-debian-1
+    container_name: assaybio-fluentd
+    restart: unless-stopped
+    networks:
+      - monitoring
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    volumes:
+      - ./logging/fluentd.conf:/fluentd/etc/fluent.conf:ro
+      - nginx-logs:/var/log/nginx:ro
+      - /var/log:/var/log/host:ro
+    environment:
+      - FLUENTD_CONF=fluent.conf
+    labels:
+      - "com.assaybio.service=logging"
+
+  # ====================
+  # SSL证书自动更新
+  # ====================
+  certbot:
+    image: certbot/certbot:latest
+    container_name: assaybio-certbot
+    restart: "no"
+    volumes:
+      - ../ssl:/etc/letsencrypt
+      - ../ssl-challenges:/var/www/certbot
+    command: >
+      sh -c "trap exit TERM;
+      while :; do
+        certbot renew --webroot --webroot-path=/var/www/certbot --email admin@assaybio.com --agree-tos --non-interactive;
+        sleep 12h & wait $${!};
+      done"
+    labels:
+      - "com.assaybio.service=ssl"
+
+  # ====================
+  # 备份服务
+  # ====================
+  backup:
+    image: alpine:latest
+    container_name: assaybio-backup
+    restart: unless-stopped
+    networks:
+      - assaybio-network
+    volumes:
+      - backup-data:/backup
+      - ../scripts:/scripts:ro
+      - /var/www/html:/source:ro
+    environment:
+      - BACKUP_SCHEDULE=${BACKUP_SCHEDULE:-0 1 * * *}
+      - BACKUP_RETENTION_DAYS=${BACKUP_RETENTION_DAYS:-30}
+      - BACKUP_ENCRYPTION_KEY=${BACKUP_ENCRYPTION_KEY}
+    command: >
+      sh -c "apk add --no-cache dcron rsync gpg &&
+      echo '$$BACKUP_SCHEDULE /scripts/backup.sh' | crontab - &&
+      crond -f"
+    labels:
+      - "com.assaybio.service=backup"
+
+  # ====================
+  # 健康检查服务
+  # ====================
+  healthcheck:
+    image: alpine:latest
+    container_name: assaybio-healthcheck
+    restart: unless-stopped
+    networks:
+      - assaybio-network
+    volumes:
+      - ../scripts:/scripts:ro
+    environment:
+      - CHECK_INTERVAL=30
+      - SLACK_WEBHOOK=${SLACK_WEBHOOK}
+      - EMAIL_ALERTS=${EMAIL_ALERTS_ENABLED:-false}
+    command: >
+      sh -c "apk add --no-cache curl &&
+      while true; do
+        /scripts/health-monitor.sh;
+        sleep $$CHECK_INTERVAL;
+      done"
+    depends_on:
+      - nginx-lb
+    labels:
+      - "com.assaybio.service=healthcheck"

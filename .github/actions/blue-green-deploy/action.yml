@@ -1,0 +1,167 @@
+name: 'Blue-Green Deployment'
+description: 'Zero-downtime deployment using blue-green strategy'
+
+inputs:
+  server-host:
+    description: 'Target server hostname or IP'
+    required: true
+  server-user:
+    description: 'SSH username for target server'
+    required: true
+  server-key:
+    description: 'SSH private key for authentication'
+    required: true
+  image-tag:
+    description: 'Docker image tag to deploy'
+    required: true
+  health-check-url:
+    description: 'URL for health check'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 🔧 Setup SSH
+      shell: bash
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ inputs.server-key }}" > ~/.ssh/deploy_key
+        chmod 600 ~/.ssh/deploy_key
+        ssh-keyscan -H ${{ inputs.server-host }} >> ~/.ssh/known_hosts
+
+    - name: 📤 Upload Deployment Scripts
+      shell: bash
+      run: |
+        scp -i ~/.ssh/deploy_key -r deployment/ ${{ inputs.server-user }}@${{ inputs.server-host }}:/tmp/blue-green-deploy/
+
+    - name: 🔵 Deploy to Blue Environment
+      shell: bash
+      run: |
+        ssh -i ~/.ssh/deploy_key ${{ inputs.server-user }}@${{ inputs.server-host }} << 'EOF'
+          set -e
+          
+          # 获取当前活跃环境
+          if docker ps --format "table {{.Names}}" | grep -q assaybio-green; then
+            ACTIVE_ENV="green"
+            TARGET_ENV="blue"
+            ACTIVE_PORT=8080
+            TARGET_PORT=8081
+          else
+            ACTIVE_ENV="blue"
+            TARGET_ENV="green"
+            ACTIVE_PORT=8081
+            TARGET_PORT=8080
+          fi
+          
+          echo "🔄 Active: $ACTIVE_ENV, Target: $TARGET_ENV"
+          
+          # 停止目标环境（如果运行中）
+          docker stop assaybio-$TARGET_ENV || true
+          docker rm assaybio-$TARGET_ENV || true
+          
+          # 启动新版本到目标环境
+          docker run -d \
+            --name assaybio-$TARGET_ENV \
+            --network assaybio-network \
+            -p $TARGET_PORT:80 \
+            -e ENVIRONMENT=production \
+            --restart unless-stopped \
+            ${{ inputs.image-tag }}
+          
+          # 等待服务启动
+          echo "⏳ Waiting for service to start..."
+          sleep 30
+        EOF
+
+    - name: 🩺 Health Check on Blue Environment
+      shell: bash
+      run: |
+        # 检查蓝环境健康状态
+        for i in {1..10}; do
+          if curl -f -s http://${{ inputs.server-host }}:8081/health > /dev/null; then
+            echo "✅ Blue environment health check passed"
+            break
+          fi
+          echo "⏳ Health check attempt $i/10 failed, retrying..."
+          sleep 10
+          
+          if [ $i -eq 10 ]; then
+            echo "❌ Health check failed after 10 attempts"
+            exit 1
+          fi
+        done
+
+    - name: 🔀 Switch Traffic to Blue
+      shell: bash
+      run: |
+        ssh -i ~/.ssh/deploy_key ${{ inputs.server-user }}@${{ inputs.server-host }} << 'EOF'
+          set -e
+          
+          # 获取当前环境状态
+          if docker ps --format "table {{.Names}}" | grep -q assaybio-green; then
+            ACTIVE_ENV="green"
+            TARGET_ENV="blue"
+          else
+            ACTIVE_ENV="blue"
+            TARGET_ENV="green"
+          fi
+          
+          echo "🔀 Switching traffic from $ACTIVE_ENV to $TARGET_ENV"
+          
+          # 更新nginx配置指向新环境
+          cd /tmp/blue-green-deploy
+          sed "s/ACTIVE_ENV/$TARGET_ENV/g" nginx/nginx-blue-green.conf > /etc/nginx/sites-available/assaybio
+          
+          # 测试nginx配置
+          nginx -t
+          
+          # 重新载入nginx配置
+          systemctl reload nginx
+          
+          echo "✅ Traffic switched to $TARGET_ENV environment"
+        EOF
+
+    - name: 🩺 Final Health Check
+      shell: bash
+      run: |
+        sleep 10
+        response=$(curl -s -o /dev/null -w "%{http_code}" ${{ inputs.health-check-url }})
+        if [ $response -eq 200 ]; then
+          echo "✅ Final health check passed"
+        else
+          echo "❌ Final health check failed with status: $response"
+          exit 1
+        fi
+
+    - name: 🗑️ Cleanup Old Environment
+      shell: bash
+      run: |
+        ssh -i ~/.ssh/deploy_key ${{ inputs.server-user }}@${{ inputs.server-host }} << 'EOF'
+          # 确定旧环境并清理
+          if docker ps --format "table {{.Names}}" | grep -q assaybio-blue; then
+            OLD_ENV="green"
+          else
+            OLD_ENV="blue"
+          fi
+          
+          echo "🗑️ Cleaning up old environment: $OLD_ENV"
+          
+          # 等待一段时间确保流量已切换
+          sleep 60
+          
+          # 停止并删除旧容器
+          docker stop assaybio-$OLD_ENV || true
+          docker rm assaybio-$OLD_ENV || true
+          
+          # 清理未使用的镜像
+          docker image prune -f
+          
+          echo "✅ Cleanup completed"
+        EOF
+
+    - name: 🧹 Cleanup SSH
+      shell: bash
+      if: always()
+      run: |
+        rm -f ~/.ssh/deploy_key
+        ssh-keyscan -H ${{ inputs.server-host }} >> ~/.ssh/known_hosts
