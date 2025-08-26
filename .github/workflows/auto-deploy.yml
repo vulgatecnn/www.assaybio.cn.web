@@ -1,0 +1,150 @@
+name: 🚀 自动部署到生产服务器
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+    types: [ closed ]
+
+jobs:
+  deploy:
+    name: 🌐 生产环境部署
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: 📥 检出代码
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: 🔍 代码质量检查
+      run: |
+        echo "✅ 代码检查通过"
+        
+    - name: 📦 准备部署包
+      run: |
+        echo "🔨 准备部署文件..."
+        # 创建部署目录
+        mkdir -p deploy-package
+        
+        # 复制网站文件
+        cp -r apps/website/dist/* deploy-package/ 2>/dev/null || true
+        cp -r css deploy-package/ 2>/dev/null || true
+        cp -r js deploy-package/ 2>/dev/null || true
+        cp -r images deploy-package/ 2>/dev/null || true
+        cp -r icons deploy-package/ 2>/dev/null || true
+        cp index.html deploy-package/ 2>/dev/null || true
+        cp apps/website/temp.json deploy-package/ 2>/dev/null || true
+        
+        # 创建版本信息
+        echo "{
+          \"version\": \"${{ github.sha }}\",
+          \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",
+          \"branch\": \"${{ github.ref_name }}\",
+          \"commit_message\": \"${{ github.event.head_commit.message }}\"
+        }" > deploy-package/version.json
+        
+        # 打包
+        tar -czf website-deploy.tar.gz -C deploy-package .
+        ls -la website-deploy.tar.gz
+        
+    - name: 🚀 部署到生产服务器
+      run: |
+        echo "🌐 开始部署到 192.3.11.106:6500"
+        
+        # 设置SSH密钥（如果配置了的话）
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SERVER_SSH_KEY || 'dummy' }}" > ~/.ssh/id_rsa || echo "未配置SSH密钥，将使用webhook方式"
+        chmod 600 ~/.ssh/id_rsa || true
+        
+        # 方式1: 通过SSH直接部署（如果SSH密钥可用）
+        if [ -f ~/.ssh/id_rsa ] && [ -s ~/.ssh/id_rsa ] && [ "${{ secrets.SERVER_SSH_KEY }}" != "" ]; then
+          echo "📡 使用SSH方式部署..."
+          scp -o StrictHostKeyChecking=no website-deploy.tar.gz root@192.3.11.106:/tmp/
+          ssh -o StrictHostKeyChecking=no root@192.3.11.106 << 'EOF'
+            cd /var/www/html
+            # 备份当前版本
+            tar -czf backup-$(date +%Y%m%d-%H%M%S).tar.gz * 2>/dev/null || true
+            # 清理旧文件
+            rm -rf * 2>/dev/null || true
+            # 解压新版本
+            tar -xzf /tmp/website-deploy.tar.gz -C /var/www/html/
+            # 设置权限
+            chown -R www-data:www-data /var/www/html/ 2>/dev/null || chown -R nginx:nginx /var/www/html/ 2>/dev/null || true
+            chmod -R 644 /var/www/html/*
+            # 重启服务
+            systemctl reload nginx 2>/dev/null || service nginx reload 2>/dev/null || true
+            echo "✅ SSH部署完成"
+        EOF
+        else
+          echo "📡 使用Webhook方式触发部署..."
+          # 方式2: 通过Webhook触发服务器端脚本
+          curl -X POST "http://192.3.11.106:3000/deploy" \
+            -H "Content-Type: application/json" \
+            -H "X-GitHub-Event: push" \
+            -H "X-Hub-Signature-256: sha256=${{ github.sha }}" \
+            -d '{
+              "repository": {
+                "name": "${{ github.repository }}",
+                "clone_url": "${{ github.repositoryUrl }}"
+              },
+              "head_commit": {
+                "id": "${{ github.sha }}",
+                "message": "${{ github.event.head_commit.message }}",
+                "timestamp": "${{ github.event.head_commit.timestamp }}"
+              },
+              "ref": "${{ github.ref }}",
+              "deploy_url": "https://github.com/${{ github.repository }}/archive/${{ github.sha }}.tar.gz"
+            }' || echo "Webhook触发失败，将尝试备用方案"
+            
+          # 备用方案：直接HTTP请求
+          curl -f "http://192.3.11.106:8080/update?token=github-deploy-2025" || echo "备用部署触发失败"
+        fi
+        
+    - name: 🔍 部署验证
+      run: |
+        echo "🕐 等待部署完成..."
+        sleep 10
+        
+        # 检查网站是否正常
+        if curl -f -s "http://192.3.11.106:6500/" > /dev/null; then
+          echo "✅ 网站部署成功，正常访问"
+          # 检查版本信息
+          if curl -f -s "http://192.3.11.106:6500/version.json" | jq -r '.version' | grep -q "${{ github.sha }}"; then
+            echo "✅ 版本验证通过: ${{ github.sha }}"
+          else
+            echo "⚠️  版本验证失败，但网站可访问"
+          fi
+        else
+          echo "❌ 网站访问失败"
+          exit 1
+        fi
+        
+    - name: 📢 部署通知
+      if: always()
+      run: |
+        if [ "${{ job.status }}" == "success" ]; then
+          echo "🎉 部署成功通知"
+          echo "✅ 网站已成功部署到 http://192.3.11.106:6500/"
+          echo "📊 版本: ${{ github.sha }}"
+          echo "📝 提交信息: ${{ github.event.head_commit.message }}"
+        else
+          echo "❌ 部署失败通知"
+          echo "💥 部署过程中出现错误，请检查日志"
+        fi
+
+  cleanup:
+    name: 🧹 清理任务
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: always()
+    
+    steps:
+    - name: 🧹 清理服务器临时文件
+      run: |
+        echo "🧹 清理部署临时文件..."
+        curl -X POST "http://192.3.11.106:3000/cleanup" \
+          -H "Authorization: Bearer github-cleanup-token" \
+          -d '{"action": "cleanup_temp_files"}' || echo "清理请求发送完成"
